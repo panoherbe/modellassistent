@@ -9,7 +9,7 @@ neuer Modellstand. Das läuft heute, lokal, mit einem offenen Sprachmodell und s
 
 | Baustein | Umsetzung |
 |---|---|
-| Systemmodell | synthetisches SysML-v2-Modell eines autonomen Flurförderfahrzeugs in RFLP-Struktur (`modell/ftf.sysml`): 7 Anforderungen, 7 Funktionen, 8 logische Bausteine, 8 Teile, 14 Beziehungen (*satisfy*, *allocate*) |
+| Systemmodell | synthetisches SysML-v2-Modell eines autonomen Flurförderfahrzeugs in RFLP-Struktur (`modell/ftf.sysml`): 7 Anforderungen, 7 Funktionen, 8 logische Bausteine, das Fahrzeug mit 7 Teilen, 14 Beziehungen (*satisfy*, *allocate*) |
 | Wissensquelle | synthetisches Lastenheft mit 20 Absätzen, je mit Kennung `LH-x.y` (`wissen/`) |
 | Abruf | Einbettungen (bge-m3), sechs Absätze je Eingabe; das kleine Modell geht vollständig als Übersicht in den Kontext |
 | Klärung | erst prüft das Sprachmodell, ob die Eingabe reicht (Zielwert fehlt, Widerspruch zu einer Quelle, unklar); dann Rückfrage statt Vorschlag |
