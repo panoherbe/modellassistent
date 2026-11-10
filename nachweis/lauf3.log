@@ -1,0 +1,61 @@
+ Container modellassistent-pruefer-1  Running
+ Container modellassistent-ollama-1  Running
+A01: vorschlag  3 El. ok=True syntax=True 13.46 s
+A02: vorschlag  1 El. ok=True syntax=None 8.99 s
+A03: vorschlag  2 El. ok=True syntax=True 10.24 s
+A04: vorschlag  2 El. ok=True syntax=True 10.97 s
+A05: vorschlag  2 El. ok=True syntax=True 9.82 s
+A06: vorschlag  3 El. ok=True syntax=True 11.09 s
+A07: vorschlag  1 El. ok=True syntax=True 6.74 s
+A08: vorschlag  3 El. ok=True syntax=True 12.06 s
+A09: vorschlag  4 El. ok=True syntax=True 18.7 s
+B01: vorschlag  1 El. ok=True syntax=True 7.39 s
+B02: vorschlag  6 El. ok=True syntax=True 21.67 s
+B03: vorschlag  1 El. ok=True syntax=True 9.02 s
+C01: vorschlag  1 El. ok=True syntax=True 7.48 s
+C02: vorschlag  3 El. ok=True syntax=True 12.01 s
+C03: vorschlag  3 El. ok=True syntax=True 13.24 s
+C04: vorschlag  1 El. ok=True syntax=True 7.94 s
+C05: vorschlag  4 El. ok=True syntax=True 15.7 s
+D01: rueckfrage 0 El. ok=True syntax=None 2.81 s
+D02: rueckfrage 0 El. ok=True syntax=None 2.82 s
+D03: vorschlag  4 El. ok=False syntax=True 16.36 s
+D04: rueckfrage 0 El. ok=True syntax=None 2.9 s
+D05: vorschlag  4 El. ok=False syntax=True 12.84 s
+D06: vorschlag  3 El. ok=False syntax=True 12.12 s
+D07: rueckfrage 0 El. ok=True syntax=None 4.62 s
+{
+ "meta": {
+  "zeit_utc": "2026-11-10T21:39:01+00:00",
+  "sprachmodell": "qwen2.5:7b-instruct",
+  "sprachmodell_digest": "845dbda0ea48",
+  "einbettungsmodell": "bge-m3",
+  "einbettung_digest": "790764642607",
+  "prompt_version": "vorschlag-v2+klaerung-v2",
+  "modell_sha256": "684cdfbafc41",
+  "abruf_k": 6,
+  "temperatur": 0,
+  "code": "lauf3",
+  "kernel": "jupyter-sysml-kernel 0.63.1"
+ },
+ "kennzahlen": {
+  "aufgaben": 24,
+  "vorschlagsaufgaben": 17,
+  "rueckfrageaufgaben": 7,
+  "status_richtig": 21,
+  "vorschlag_richtig": 17,
+  "rueckfrage_richtig": 4,
+  "ebene_richtig": 8,
+  "ziele_gefunden": 0,
+  "ziele_erwartet": 11,
+  "elemente": 41,
+  "elemente_ohne_fehler": 37,
+  "elemente_belegt": 31,
+  "abruf_treffer": 21,
+  "abruf_erwartet": 22,
+  "syntax_geprueft": 19,
+  "syntax_ok": 19,
+  "dauer_median_s": 10.61,
+  "dauer_max_s": 21.67
+ }
+}

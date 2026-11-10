@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 BASIS = Path(__file__).resolve().parent.parent
-PROMPT_VERSION = "vorschlag-v3+klaerung-v2"
+PROMPT_VERSION = "vorschlag-v4+klaerung-v2+zuordnung-v2"
 
 
 @dataclass(frozen=True)

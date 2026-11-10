@@ -72,6 +72,8 @@ Regeln:
 - Schlage nur NEUE Elemente vor; vorhandene Elemente änderst du nicht und schlägst sie nicht noch einmal vor.
 - Für jedes P-Element ist "typ" Pflicht: der Name eines L-Bausteins (vorhanden oder aus deinem Vorschlag).
 - Erlaubt sind nur zwei Beziehungen: R satisfy P und F allocate P. Keine anderen, keine auf das Element selbst.
+- Jede Anforderung (R) und jede Funktion (F) bekommt genau eine solche Beziehung zu dem Teil (P-...), das sie erfüllt
+  oder ausführt: ein vorhandenes Teil aus der Modellübersicht oder ein neues Teil aus deinem Vorschlag (NEU-n).
 - Namen: nur Buchstaben und Ziffern, ohne Umlaute und Leerzeichen.
 - Schlage nur vor, was die Eingabe verlangt; meist sind es ein bis drei Elemente. Antworte auf Deutsch.
 
@@ -175,7 +177,12 @@ def nachbereiten(roh: dict, modell: Modell, kontext: dict[str, Quelle]) -> dict:
             "quellen": [dict(q) for q in e.get("quellen") or []],
         })
     neu = {e["neu"]: e["id"] for e in elemente}
+    neu_name = {e["neu"]: e["name"] for e in elemente if e["ebene"] == "L"}
     for e in elemente:
+        if e["ebene"] == "P":
+            roh_typ = re.sub(r"^NEU\s*-?\s*", "NEU-", (e["typ"] or "").upper()) if (e["typ"] or "").upper().startswith("NEU") else ""
+            if roh_typ in neu_name:
+                e["typ"] = neu_name[roh_typ]
         for b in e["bezuege"]:
             ziel = b.get("ziel", "").strip().upper()
             ziel = re.sub(r"^NEU\s*-?\s*", "NEU-", ziel)
@@ -207,12 +214,15 @@ def _ausrichten(elemente: list[dict], modell: Modell) -> None:
             continue
         for b in e["bezuege"]:
             ziel = modell.elemente.get(b["ziel"])
-            if ziel and ziel.ebene == "L":
-                teile = [p for p in modell.elemente.values() if p.ebene == "P" and p.typ == ziel.name]
+            ziel_name = ziel.name if ziel and ziel.ebene == "L" else (
+                neu[b["ziel"]]["name"] if b["ziel"] in neu and neu[b["ziel"]]["ebene"] == "L" else None)
+            if ziel_name:
+                teile = [(p.id, p.name) for p in modell.elemente.values() if p.ebene == "P" and p.typ == ziel_name] + \
+                        [(p["id"], p["name"]) for p in elemente if p["ebene"] == "P" and p.get("typ") == ziel_name]
                 if len(teile) == 1:
-                    e.setdefault("hinweise", []).append(f"Ziel {ziel.id} ({ziel.name}) auf das Teil {teile[0].id} "
-                                                        f"({teile[0].name}) gelegt")
-                    b["ziel"] = teile[0].id
+                    e.setdefault("hinweise", []).append(f"Ziel {b['ziel']} ({ziel_name}) auf das Teil {teile[0][0]} "
+                                                        f"({teile[0][1]}) gelegt")
+                    b["ziel"] = teile[0][0]
     _bereinigen(elemente, modell)
 
 

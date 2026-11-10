@@ -1,0 +1,2090 @@
+{
+ "meta": {
+  "zeit_utc": "2026-11-10T21:48:44+00:00",
+  "sprachmodell": "qwen2.5:7b-instruct",
+  "sprachmodell_digest": "845dbda0ea48",
+  "einbettungsmodell": "bge-m3",
+  "einbettung_digest": "790764642607",
+  "prompt_version": "vorschlag-v4+klaerung-v2",
+  "modell_sha256": "684cdfbafc41",
+  "abruf_k": 6,
+  "temperatur": 0,
+  "code": "lauf5",
+  "kernel": "jupyter-sysml-kernel 0.63.1"
+ },
+ "kennzahlen": {
+  "aufgaben": 24,
+  "vorschlagsaufgaben": 17,
+  "rueckfrageaufgaben": 7,
+  "status_richtig": 20,
+  "vorschlag_richtig": 17,
+  "rueckfrage_richtig": 3,
+  "ebene_richtig": 13,
+  "ziele_gefunden": 1,
+  "ziele_erwartet": 11,
+  "elemente": 41,
+  "elemente_ohne_fehler": 38,
+  "elemente_belegt": 30,
+  "abruf_treffer": 21,
+  "abruf_erwartet": 22,
+  "syntax_geprueft": 21,
+  "syntax_ok": 21,
+  "dauer_median_s": 11.31,
+  "dauer_max_s": 17.57
+ },
+ "aufgaben": [
+  {
+   "id": "A01",
+   "eingabe": "Das Fahrzeug soll Rampen mit voller Last befahren können.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-002"
+    ],
+    "quellen": [
+     "LH-2.3"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 10.73,
+   "elemente": [
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "rampenBefahren",
+     "text": "Das Fahrzeug fährt Rampen mit voller Last befahren.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-2.3",
+       "zitat": "Rampen in der Halle haben eine Steigung von höchstens 4 %; das Fahrzeug muss sie mit voller Last befahren.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → F-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "Beziehung satisfy → P-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      }
+     ]
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "rampenBefahrfahrwerk",
+     "text": "Fahrwerk, das Rampen mit voller Last befährt.",
+     "typ": "Fahrwerk",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-2.3",
+    "LH-6.1",
+    "LH-2.1",
+    "LH-6.2",
+    "LH-3.2",
+    "LH-5.2"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> rampenBefahren {\n    doc /* Das Fahrzeug fährt Rampen mit voller Last befahren. */\n}\n\n// in Physik::ftf\npart <'P-009'> rampenBefahrfahrwerk : Logik::Fahrwerk;",
+   "status_richtig": true,
+   "ebene_richtig": false,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 1,
+   "abruf_treffer": [
+    "LH-2.3"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A02",
+   "eingabe": "In Bereichen mit Personenverkehr darf das FTF höchstens 0,8 m/s fahren.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-002"
+    ],
+    "quellen": [
+     "LH-2.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 9.0,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "personenverkehrsgeschwindigkeit",
+     "text": "Das FTF fährt in Bereichen mit Personenverkehr höchstens 0,8 m/s.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-002"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-2.2",
+       "zitat": "Die Höchstgeschwindigkeit im Automatikbetrieb beträgt 1,5 m/s; in Bereichen mit Personenverkehr gilt 0,8 m/s.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-2.2",
+    "LH-2.4",
+    "LH-4.3",
+    "LH-2.3",
+    "LH-1.3",
+    "LH-3.3"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> personenverkehrsgeschwindigkeit {\n    doc /* Das FTF fährt in Bereichen mit Personenverkehr höchstens 0,8 m/s. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::personenverkehrsgeschwindigkeit by Physik::ftf.fahrwerk;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [
+    "P-002"
+   ],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "abruf_treffer": [
+    "LH-2.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A03",
+   "eingabe": "Das Fahrzeug darf nicht breiter als 900 mm sein.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-001"
+    ],
+    "quellen": [
+     "LH-2.4"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 8.22,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "fahrzeugbreite",
+     "text": "Das FTF hat eine Breite von höchstens 900 mm.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-008"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-2.4",
+       "zitat": "Die Fahrzeugbreite darf 900 mm nicht überschreiten, damit es durch die Brandschutztore passt.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-2.4",
+    "LH-6.1",
+    "LH-3.3",
+    "LH-2.3",
+    "LH-2.2",
+    "LH-2.1"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> fahrzeugbreite {\n    doc /* Das FTF hat eine Breite von höchstens 900 mm. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::fahrzeugbreite by Physik::ftf.sicherheitssteuerung;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "abruf_treffer": [
+    "LH-2.4"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A04",
+   "eingabe": "Bei einem Ladestand unter 15 % soll das FTF keine neuen Fahraufträge annehmen.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-3.3"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 13.42,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "ladestandUnter15Prozent",
+     "text": "Das FTF nimmt keine neuen Fahraufträge an, wenn der Akkuladestand unter 15 % liegt.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.3",
+       "zitat": "Bei einem Ladestand unter 15 % nimmt das Fahrzeug keine neuen Fahraufträge an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung satisfy → R-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      }
+     ]
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "ladestandUnterpruefen",
+     "text": "Den Akkuladestand prüfen und bei unter 15 % neue Fahraufträge ablehnen.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → F-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "ladestandSensor",
+     "text": "Sensoreinrichtung zum Messen des Akkuladestands.",
+     "typ": "Ladezustandsensor",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "fehler",
+     "befunde": [
+      {
+       "stufe": "fehler",
+       "text": "Typ 'Ladezustandsensor' ist kein logischer Baustein (L) im Modell oder im Vorschlag"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-3.3",
+    "LH-3.2",
+    "LH-5.2",
+    "LH-3.1",
+    "LH-2.1",
+    "LH-1.2"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> ladestandUnter15Prozent {\n    doc /* Das FTF nimmt keine neuen Fahraufträge an, wenn der Akkuladestand unter 15 % liegt. */\n}\n\n// in Funktionen\naction <'F-008'> ladestandUnterpruefen {\n    doc /* Den Akkuladestand prüfen und bei unter 15 % neue Fahraufträge ablehnen. */\n}",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 1,
+   "abruf_treffer": [
+    "LH-3.3"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A05",
+   "eingabe": "Das FTF muss Position, Ladestand und Störungen jede Sekunde an das Leitsystem melden.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-007"
+    ],
+    "quellen": [
+     "LH-5.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 11.44,
+   "elemente": [
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "zustandsMelden",
+     "text": "Das FTF meldet Position, Ladestand und Störungen an das Leitsystem.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-5.2",
+       "zitat": "Das Fahrzeug meldet Position, Ladestand und Störungen mindestens einmal pro Sekunde an das Leitsystem.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → F-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      }
+     ]
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "zustandsMeldung",
+     "text": "Teil im Fahrzeug; Meldet Position, Ladestand und Störungen.",
+     "typ": "NEU1",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-5.2",
+       "zitat": "Das Fahrzeug meldet Position, Ladestand und Störungen mindestens einmal pro Sekunde an das Leitsystem.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "fehler",
+     "befunde": [
+      {
+       "stufe": "fehler",
+       "text": "Typ 'NEU1' ist kein logischer Baustein (L) im Modell oder im Vorschlag"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-5.2",
+    "LH-5.1",
+    "LH-4.5",
+    "LH-5.3",
+    "LH-6.1",
+    "LH-4.2"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> zustandsMelden {\n    doc /* Das FTF meldet Position, Ladestand und Störungen an das Leitsystem. */\n}",
+   "status_richtig": true,
+   "ebene_richtig": false,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-5.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A06",
+   "eingabe": "Bei Verbindungsverlust von mehr als 5 Sekunden soll das FTF kontrolliert anhalten.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-5.3"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 10.89,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "verbindungsverlustAnhalten",
+     "text": "Das FTF hält bei Verbindungsverlust von mehr als 5 Sekunden kontrolliert an.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-008"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-5.3",
+       "zitat": "Bei Verbindungsverlust länger als 5 Sekunden hält das Fahrzeug kontrolliert an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "verbindungsverlustDetektieren",
+     "text": "Verbindungsverlust überwachen und bei mehr als 5 Sekunden Halt auslösen.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → R-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-5.3",
+    "LH-5.2",
+    "LH-5.1",
+    "LH-1.2",
+    "LH-3.1",
+    "LH-4.2"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> verbindungsverlustAnhalten {\n    doc /* Das FTF hält bei Verbindungsverlust von mehr als 5 Sekunden kontrolliert an. */\n}\n\n// in Funktionen\naction <'F-008'> verbindungsverlustDetektieren {\n    doc /* Verbindungsverlust überwachen und bei mehr als 5 Sekunden Halt auslösen. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::verbindungsverlustAnhalten by Physik::ftf.sicherheitssteuerung;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 1,
+   "abruf_treffer": [
+    "LH-5.3"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A07",
+   "eingabe": "Die Lastaufnahme soll Ladungsträger um bis zu 120 mm anheben.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-005"
+    ],
+    "quellen": [
+     "LH-6.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 10.51,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "Lastaufnahmesensor",
+     "text": "Sensor zur Messung der Aufnahmehöhe von Ladungsträger.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-6.2",
+       "zitat": "Die Lastaufnahme hebt Ladungsträger um bis zu 120 mm an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "lastaufnahmesensor",
+     "text": "Sensor zur Messung der Aufnahmehöhe von Ladungsträger.",
+     "typ": "Lastaufnahme",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-6.2",
+       "zitat": "Die Lastaufnahme hebt Ladungsträger um bis zu 120 mm an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung satisfy → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-6.2",
+    "LH-2.1",
+    "LH-2.3",
+    "LH-6.1",
+    "LH-3.1",
+    "LH-5.2"
+   ],
+   "sysml": "// in Logik\npart def <'L-009'> Lastaufnahmesensor {\n    doc /* Sensor zur Messung der Aufnahmehöhe von Ladungsträger. */\n}\n\n// in Physik::ftf\npart <'P-009'> lastaufnahmesensor : Logik::Lastaufnahme;",
+   "status_richtig": true,
+   "ebene_richtig": false,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-6.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A08",
+   "eingabe": "Das FTF transportiert Gitterboxen und Europaletten.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-005"
+    ],
+    "quellen": [
+     "LH-1.1"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 11.43,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "Lasttragwerk",
+     "text": "Mechanik zur Aufnahme und Abgabe von Ladungsträgern.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-1.1",
+       "zitat": "Das Fahrzeug transportiert Gitterboxen und Europaletten",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "lasttragwerk",
+     "text": "Mechanik zur Aufnahme und Abgabe von Ladungsträgern.",
+     "typ": "Lasttragwerk",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-1.1",
+       "zitat": "Das Fahrzeug transportiert Gitterboxen und Europaletten",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "lastHandhabenAutomatisch",
+     "text": "Ladungsträger automatisch aufnehmen und abgeben.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-1.1",
+    "LH-4.1",
+    "LH-4.3",
+    "LH-1.3",
+    "LH-5.1",
+    "LH-4.5"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> lastHandhabenAutomatisch {\n    doc /* Ladungsträger automatisch aufnehmen und abgeben. */\n}\n\n// in Logik\npart def <'L-009'> Lasttragwerk {\n    doc /* Mechanik zur Aufnahme und Abgabe von Ladungsträgern. */\n}\n\n// in Physik::ftf\npart <'P-009'> lasttragwerk : Logik::Lasttragwerk;",
+   "status_richtig": true,
+   "ebene_richtig": false,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 3,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-1.1"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A09",
+   "eingabe": "Das Fahrzeug muss im Zweischichtbetrieb mit 30 Minuten Ladepause zwischen den Schichten auskommen.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-006"
+    ],
+    "quellen": [
+     "LH-1.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 11.1,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "zweischichtbetrieb",
+     "text": "Das FTF arbeitet im Zweischichtbetrieb mit 30 Minuten Ladepause zwischen den Schichten.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-001"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-1.2",
+       "zitat": "Der Betrieb läuft im Zweischichtbetrieb an fünf Tagen pro Woche; zwischen den Schichten bleiben 30 Minuten zum Laden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "ladepauseDurchfuhren",
+     "text": "Das FTF hält für 30 Minuten an, um die Akkuleistung zu erholen.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → R-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-1.2",
+    "LH-3.1",
+    "LH-5.2",
+    "LH-3.2",
+    "LH-3.3",
+    "LH-5.3"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> zweischichtbetrieb {\n    doc /* Das FTF arbeitet im Zweischichtbetrieb mit 30 Minuten Ladepause zwischen den Schichten. */\n}\n\n// in Funktionen\naction <'F-008'> ladepauseDurchfuhren {\n    doc /* Das FTF hält für 30 Minuten an, um die Akkuleistung zu erholen. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::zweischichtbetrieb by Physik::ftf;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 1,
+   "abruf_treffer": [
+    "LH-1.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "B01",
+   "eingabe": "Ergänze eine Funktion, mit der das Fahrzeug bei niedrigem Ladestand selbst zur Ladestation fährt.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "F"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-3.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 12.12,
+   "elemente": [
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "ladestationAnfahren",
+     "text": "Das Fahrzeug fährt selbstständig zur Ladestation, wenn der Akkuladestand unter 15 % liegt.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.2",
+       "zitat": "Das Fahrzeug fährt bei niedrigem Ladestand selbstständig zur Ladestation und lädt dort kontaktlos.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → F-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      }
+     ]
+    },
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "ladestandUnter15Prozent",
+     "text": "Bei einem Akkuladestand unter 15 % nimmt das Fahrzeug keine neuen Fahraufträge an.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.3",
+       "zitat": "Bei einem Ladestand unter 15 % nimmt das Fahrzeug keine neuen Fahraufträge an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung satisfy → R-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-3.2",
+    "LH-3.3",
+    "LH-5.2",
+    "LH-6.1",
+    "LH-3.1",
+    "LH-4.3"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> ladestandUnter15Prozent {\n    doc /* Bei einem Akkuladestand unter 15 % nimmt das Fahrzeug keine neuen Fahraufträge an. */\n}\n\n// in Funktionen\naction <'F-008'> ladestationAnfahren {\n    doc /* Das Fahrzeug fährt selbstständig zur Ladestation, wenn der Akkuladestand unter 15 % liegt. */\n}",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-3.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "B02",
+   "eingabe": "Das FTF soll vor dem Anfahren und bei Richtungswechseln akustisch und optisch warnen.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "F",
+     "R"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-4.5"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 13.76,
+   "elemente": [
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "akustischeUndOptischeWarnung",
+     "text": "Akustische und optische Warnsignale bei Anfahren und Richtungswechseln auslösen.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → F-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    },
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "SicherheitslaserscannerRueckwaerts",
+     "text": "Sensor, der das Schutzfeld hinter dem Fahrzeug überwacht.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "sicherheitslaserscannerRueckwaerts",
+     "text": "Sicherheitslaserscanner für das Schutzfeld hinter dem Fahrzeug.",
+     "typ": "Sicherheitslaserscanner",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-4.5",
+    "LH-4.2",
+    "LH-4.1",
+    "LH-5.2",
+    "LH-4.3",
+    "LH-6.1"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> akustischeUndOptischeWarnung {\n    doc /* Akustische und optische Warnsignale bei Anfahren und Richtungswechseln auslösen. */\n}\n\n// in Logik\npart def <'L-009'> SicherheitslaserscannerRueckwaerts {\n    doc /* Sensor, der das Schutzfeld hinter dem Fahrzeug überwacht. */\n}\n\n// in Physik::ftf\npart <'P-009'> sicherheitslaserscannerRueckwaerts : Logik::Sicherheitslaserscanner;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 3,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-4.5"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "B03",
+   "eingabe": "Füge eine Funktion zum Melden von Störungen an das Leitsystem hinzu.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "F"
+    ],
+    "ziele": [
+     "P-007"
+    ],
+    "quellen": [
+     "LH-5.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 11.19,
+   "elemente": [
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "stoerungenMelden",
+     "text": "Das FTF meldet Störungen an das Leitsystem.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-5.2",
+       "zitat": "Das Fahrzeug meldet Position, Ladestand und Störungen mindestens einmal pro Sekunde an das Leitsystem.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → F-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      }
+     ]
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "stoerungsmelder",
+     "text": "Teil im Fahrzeug; Meldet Störungen an das Leitsystem.",
+     "typ": "NEU1",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-5.2",
+       "zitat": "Das Fahrzeug meldet Position, Ladestand und Störungen mindestens einmal pro Sekunde an das Leitsystem.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "fehler",
+     "befunde": [
+      {
+       "stufe": "fehler",
+       "text": "Typ 'NEU1' ist kein logischer Baustein (L) im Modell oder im Vorschlag"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-5.2",
+    "LH-5.1",
+    "LH-4.5",
+    "LH-4.4",
+    "LH-4.1",
+    "LH-5.3"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> stoerungenMelden {\n    doc /* Das FTF meldet Störungen an das Leitsystem. */\n}",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-5.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C01",
+   "eingabe": "Bei Rückwärtsfahrt muss auch hinter dem Fahrzeug überwacht werden; ergänze dafür einen zweiten Scanner.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "P"
+    ],
+    "ziele": [
+     "R-003"
+    ],
+    "quellen": [
+     "LH-4.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 17.57,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "SicherheitslaserscannerRueckwaerts",
+     "text": "Sensor, der Schutzfelder hinter dem Fahrzeug überwacht.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "scannerRueckwaerts",
+     "text": "Sicherheitslaserscanner für die Überwachung des Schutzfeldes hinter dem Fahrzeug.",
+     "typ": "SicherheitslaserscannerRueckwaerts",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "rueckwaertsFahrenSicherheitsueberwachung",
+     "text": "Hinter dem Fahrzeug überwachen und Hindernisse erkennen, wenn das FTF rückwärts fährt.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    },
+    {
+     "id": "F-009",
+     "ebene": "F",
+     "name": "hindernisseErkennenRueckwaerts",
+     "text": "Hinter dem Fahrzeug überwachen und Hindernisse erkennen, wenn das FTF rückwärts fährt.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-4.2",
+    "LH-4.1",
+    "LH-5.2",
+    "LH-4.5",
+    "LH-4.3",
+    "LH-4.4"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> rueckwaertsFahrenSicherheitsueberwachung {\n    doc /* Hinter dem Fahrzeug überwachen und Hindernisse erkennen, wenn das FTF rückwärts fährt. */\n}\naction <'F-009'> hindernisseErkennenRueckwaerts {\n    doc /* Hinter dem Fahrzeug überwachen und Hindernisse erkennen, wenn das FTF rückwärts fährt. */\n}\n\n// in Logik\npart def <'L-009'> SicherheitslaserscannerRueckwaerts {\n    doc /* Sensor, der Schutzfelder hinter dem Fahrzeug überwacht. */\n}\n\n// in Physik::ftf\npart <'P-009'> scannerRueckwaerts : Logik::SicherheitslaserscannerRueckwaerts;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 4,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-4.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C02",
+   "eingabe": "Ergänze eine Warnleuchte mit Signalgeber als neuen Baustein und baue sie ins Fahrzeug ein.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "L",
+     "P"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-4.5"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 13.31,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "Warnleuchte",
+     "text": "Leuchte zur optischen Warnung.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.5",
+       "zitat": "Akustische und optische Warnsignale kündigen das Anfahren und Richtungswechsel an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "warnleuchte",
+     "text": "Warnleuchte im Fahrzeug.",
+     "typ": "Warnleuchte",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.5",
+       "zitat": "Akustische und optische Warnsignale kündigen das Anfahren und Richtungswechsel an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "optischeWarnung",
+     "text": "Optische Warnung durch die Warnleuchte.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.5",
+       "zitat": "Akustische und optische Warnsignale kündigen das Anfahren und Richtungswechsel an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-4.5",
+    "LH-5.2",
+    "LH-4.4",
+    "LH-4.1",
+    "LH-6.1",
+    "LH-5.1"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> optischeWarnung {\n    doc /* Optische Warnung durch die Warnleuchte. */\n}\n\n// in Logik\npart def <'L-009'> Warnleuchte {\n    doc /* Leuchte zur optischen Warnung. */\n}\n\n// in Physik::ftf\npart <'P-009'> warnleuchte : Logik::Warnleuchte;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 3,
+   "elemente_belegt": 3,
+   "abruf_treffer": [
+    "LH-4.5"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C03",
+   "eingabe": "Für das kontaktlose Laden braucht das Fahrzeug eine Ladespule.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "L",
+     "P"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-3.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 12.83,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "Ladespule",
+     "text": "Elektromagnetische Spule für kontaktloses Laden.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.2",
+       "zitat": "Das Fahrzeug fährt bei niedrigem Ladestand selbstständig zur Ladestation und lädt dort kontaktlos.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "ladespule",
+     "text": "Ladespule im Ladestationssystem.",
+     "typ": "Ladespule",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.2",
+       "zitat": "Das Fahrzeug fährt bei niedrigem Ladestand selbstständig zur Ladestation und lädt dort kontaktlos.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung satisfy → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      }
+     ]
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "ladestationAnfahren",
+     "text": "Das FTF fährt zur Ladestation und beginnt das kontaktlose Laden.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "allocate",
+       "ziel": "P-009"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-3.2",
+    "LH-3.1",
+    "LH-5.2",
+    "LH-5.3",
+    "LH-1.2",
+    "LH-4.2"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> ladestationAnfahren {\n    doc /* Das FTF fährt zur Ladestation und beginnt das kontaktlose Laden. */\n}\n\n// in Logik\npart def <'L-009'> Ladespule {\n    doc /* Elektromagnetische Spule für kontaktloses Laden. */\n}\n\n// in Physik::ftf\npart <'P-009'> ladespule : Logik::Ladespule;\n\n// in Verknuepfungen\nallocate Funktionen::ladestationAnfahren to Physik::ftf.ladespule;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 3,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-3.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C04",
+   "eingabe": "Ergänze einen Not-Halt-Taster auf der rechten Fahrzeugseite.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "L",
+     "P"
+    ],
+    "ziele": [
+     "R-006"
+    ],
+    "quellen": [
+     "LH-4.4"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 14.16,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "NotHaltTaster",
+     "text": "Sensor für den Not-Halt an der rechten Fahrzeugseite.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.4",
+       "zitat": "Not-Halt-Taster befinden sich an beiden Längsseiten des Fahrzeugs.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "notHaltTasterRechts",
+     "text": "Not-Halt-Taster auf der rechten Fahrzeugseite.",
+     "typ": "NotHaltTaster",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.4",
+       "zitat": "Not-Halt-Taster befinden sich an beiden Längsseiten des Fahrzeugs.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "notHaltAusloesenRechts",
+     "text": "Bei Betätigung des Not-Halts auf der rechten Seite alle Antriebe sicher abschalten.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.4",
+       "zitat": "Not-Halt-Taster befinden sich an beiden Längsseiten des Fahrzeugs.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-4.4",
+    "LH-6.1",
+    "LH-5.2",
+    "LH-4.3",
+    "LH-4.2",
+    "LH-4.1"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> notHaltAusloesenRechts {\n    doc /* Bei Betätigung des Not-Halts auf der rechten Seite alle Antriebe sicher abschalten. */\n}\n\n// in Logik\npart def <'L-009'> NotHaltTaster {\n    doc /* Sensor für den Not-Halt an der rechten Fahrzeugseite. */\n}\n\n// in Physik::ftf\npart <'P-009'> notHaltTasterRechts : Logik::NotHaltTaster;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 3,
+   "elemente_belegt": 3,
+   "abruf_treffer": [
+    "LH-4.4"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C05",
+   "eingabe": "Lege den hinteren Scanner an und ordne ihm zusätzlich die Funktion Hindernisse erkennen zu.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "P"
+    ],
+    "ziele": [
+     "F-003"
+    ],
+    "quellen": [
+     "LH-4.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 13.81,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "SicherheitslaserscannerHinterne",
+     "text": "Sensor, der Schutzfelder im Fahrweg überwacht.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.1",
+       "zitat": "Ein Sicherheitslaserscanner überwacht das Schutzfeld in Fahrtrichtung.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "scannerHinten",
+     "text": "Sicherheitslaserscanner im Fahrzeug hinter dem Fahrwerk.",
+     "typ": "SicherheitslaserscannerHinterne",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung satisfy → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      }
+     ]
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "hindernisseErkennenHinten",
+     "text": "Den Fahrweg im Hintergrund überwachen und Hindernisse sowie Personen erkennen.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "allocate",
+       "ziel": "P-009"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-4.1",
+    "LH-4.2",
+    "LH-6.1",
+    "LH-5.2",
+    "LH-4.5",
+    "LH-5.1"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> hindernisseErkennenHinten {\n    doc /* Den Fahrweg im Hintergrund überwachen und Hindernisse sowie Personen erkennen. */\n}\n\n// in Logik\npart def <'L-009'> SicherheitslaserscannerHinterne {\n    doc /* Sensor, der Schutzfelder im Fahrweg überwacht. */\n}\n\n// in Physik::ftf\npart <'P-009'> scannerHinten : Logik::SicherheitslaserscannerHinterne;\n\n// in Verknuepfungen\nallocate Funktionen::hindernisseErkennenHinten to Physik::ftf.scannerHinten;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 3,
+   "elemente_belegt": 2,
+   "abruf_treffer": [
+    "LH-4.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "D01",
+   "eingabe": "Das FTF soll schneller werden.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-2.2"
+    ]
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Die Eingabe fordert, dass das FTF schneller wird, aber kein spezifischer Zielwert (z.B. eine maximale Fahrgeschwindigkeit) wurde genannt."
+   ],
+   "dauer_s": 2.87,
+   "elemente": [],
+   "abgerufen": [
+    "LH-4.1",
+    "LH-5.1",
+    "LH-4.2",
+    "LH-4.3",
+    "LH-5.2",
+    "LH-2.3"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": []
+  },
+  {
+   "id": "D02",
+   "eingabe": "Die Nutzlast soll erhöht werden.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-2.1"
+    ]
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Wie hoch soll die neue Nutzlast sein?",
+    "Welche maximale Masse soll das Fahrzeug transportieren?"
+   ],
+   "dauer_s": 2.97,
+   "elemente": [],
+   "abgerufen": [
+    "LH-2.1",
+    "LH-6.2",
+    "LH-2.3",
+    "LH-3.1",
+    "LH-1.2",
+    "LH-5.1"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": [
+    "LH-2.1"
+   ]
+  },
+  {
+   "id": "D03",
+   "eingabe": "Ergänze einen Sensor.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": []
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 12.26,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "Sicherheitslaserscanner",
+     "text": "Sensor, der Schutzfelder im Fahrweg überwacht.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.1",
+       "zitat": "Ein Sicherheitslaserscanner überwacht das Schutzfeld in Fahrtrichtung.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "fehler",
+     "befunde": [
+      {
+       "stufe": "fehler",
+       "text": "Name Sicherheitslaserscanner gibt es auf Ebene L schon"
+      }
+     ]
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "scannerHinten",
+     "text": "Sicherheitslaserscanner am Hinterrad.",
+     "typ": "Sicherheitslaserscanner",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.1",
+       "zitat": "Ein Sicherheitslaserscanner überwacht das Schutzfeld in Fahrtrichtung.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "hindernisseErkennenHinten",
+     "text": "Hindernisse im Rückfeld erkennen.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-5.2",
+    "LH-4.1",
+    "LH-4.5",
+    "LH-3.1",
+    "LH-4.4",
+    "LH-6.1"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> hindernisseErkennenHinten {\n    doc /* Hindernisse im Rückfeld erkennen. */\n}\n\n// in Physik::ftf\npart <'P-009'> scannerHinten : Logik::Sicherheitslaserscanner;",
+   "status_richtig": false,
+   "abruf_treffer": [],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "D04",
+   "eingabe": "Die Akkulaufzeit soll verbessert werden.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-3.1"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 11.43,
+   "elemente": [
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "akkulaufzeitBesserung",
+     "text": "Akkuladung verbessern, um die Einsatzdauer zu erhöhen.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung allocate → F-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    },
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "AkkuBessererTyp",
+     "text": "Verbesserte Akkutechnologie für höhere Ladungsdauer.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "bessererAkku",
+     "text": "Verbesserter Akku mit höherer Kapazität und Effizienz.",
+     "typ": "AkkuBessererTyp",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung satisfy → L-009 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-3.1",
+    "LH-1.2",
+    "LH-6.2",
+    "LH-5.2",
+    "LH-5.3",
+    "LH-5.1"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> akkulaufzeitBesserung {\n    doc /* Akkuladung verbessern, um die Einsatzdauer zu erhöhen. */\n}\n\n// in Logik\npart def <'L-009'> AkkuBessererTyp {\n    doc /* Verbesserte Akkutechnologie für höhere Ladungsdauer. */\n}\n\n// in Physik::ftf\npart <'P-009'> bessererAkku : Logik::AkkuBessererTyp;",
+   "status_richtig": false,
+   "abruf_treffer": [
+    "LH-3.1"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "D05",
+   "eingabe": "Das Fahrzeug soll 2000 kg tragen können.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-2.1"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 8.96,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "tragekapazitaet",
+     "text": "Das FTF kann eine Last von bis zu 2000 kg tragen.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "Beziehung satisfy → R-008 nicht übernommen (zulässig: R satisfy P, F allocate P)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine Beziehung zu einem Teil des Fahrzeugs (satisfy/allocate)"
+      },
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "lasttragwerk",
+     "text": "Tragwerk für die Last von bis zu 2000 kg.",
+     "typ": "Lastaufnahme",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [],
+     "pruefung": "warnung",
+     "befunde": [
+      {
+       "stufe": "warnung",
+       "text": "keine wörtlich belegte Quelle"
+      }
+     ]
+    }
+   ],
+   "abgerufen": [
+    "LH-2.1",
+    "LH-6.2",
+    "LH-2.3",
+    "LH-6.1",
+    "LH-2.4",
+    "LH-3.1"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> tragekapazitaet {\n    doc /* Das FTF kann eine Last von bis zu 2000 kg tragen. */\n}\n\n// in Physik::ftf\npart <'P-009'> lasttragwerk : Logik::Lastaufnahme;",
+   "status_richtig": false,
+   "abruf_treffer": [
+    "LH-2.1"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "D06",
+   "eingabe": "Die Höchstgeschwindigkeit im Automatikbetrieb soll 3 m/s betragen.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-2.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 8.79,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "maximaleFahrgeschwindigkeitAutomatikbetrieb",
+     "text": "Die Höchstgeschwindigkeit im Automatikbetrieb beträgt 3 m/s.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-002"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-2.2",
+       "zitat": "Die Höchstgeschwindigkeit im Automatikbetrieb beträgt 1,5 m/s; in Bereichen mit Personenverkehr gilt 0,8 m/s.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-2.2",
+    "LH-2.3",
+    "LH-5.3",
+    "LH-3.1",
+    "LH-3.3",
+    "LH-5.2"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> maximaleFahrgeschwindigkeitAutomatikbetrieb {\n    doc /* Die Höchstgeschwindigkeit im Automatikbetrieb beträgt 3 m/s. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::maximaleFahrgeschwindigkeitAutomatikbetrieb by Physik::ftf.fahrwerk;",
+   "status_richtig": false,
+   "abruf_treffer": [
+    "LH-2.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "D07",
+   "eingabe": "Mach das Fahrzeug sicherer.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": []
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Welche spezifische Sicherheitsmaßnahme soll hinzugefügt werden? ",
+    "Soll eine bestimmte Funktion verbessert oder ein neues Bauteil eingefügt werden, um die Sicherheit zu erhöhen?"
+   ],
+   "dauer_s": 4.26,
+   "elemente": [],
+   "abgerufen": [
+    "LH-4.2",
+    "LH-4.1",
+    "LH-4.3",
+    "LH-6.1",
+    "LH-4.5",
+    "LH-5.2"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": []
+  }
+ ]
+}

@@ -1,0 +1,42 @@
+ Container modellassistent-ollama-1  Running
+ Container modellassistent-pruefer-1  Running
+A01: vorschlag  1 El. ok=True syntax=None 36.51 s
+A02: vorschlag  1 El. ok=True syntax=None 6.6 s
+A03: vorschlag  1 El. ok=True syntax=None 5.39 s
+A04: vorschlag  2 El. ok=True syntax=None 8.32 s
+A05: vorschlag  1 El. ok=True syntax=None 5.98 s
+A06: vorschlag  3 El. ok=True syntax=None 14.84 s
+A07: vorschlag  1 El. ok=True syntax=None 5.48 s
+A08: vorschlag  1 El. ok=True syntax=None 6.68 s
+A09: vorschlag  3 El. ok=True syntax=True 10.35 s
+B01: vorschlag  1 El. ok=True syntax=None 6.51 s
+B02: vorschlag  3 El. ok=True syntax=None 16.86 s
+B03: vorschlag  1 El. ok=True syntax=None 5.96 s
+C01: vorschlag  1 El. ok=True syntax=None 7.69 s
+C02: vorschlag  4 El. ok=True syntax=None 13.6 s
+C03: vorschlag  2 El. ok=True syntax=None 10.66 s
+C04: vorschlag  1 El. ok=True syntax=None 5.15 s
+C05: vorschlag  1 El. ok=True syntax=None 5.94 s
+D01: vorschlag  1 El. ok=False syntax=None 5.89 s
+D02: vorschlag  2 El. ok=False syntax=True 8.01 s
+D03: vorschlag  2 El. ok=False syntax=None 8.86 s
+D04: vorschlag  3 El. ok=False syntax=True 9.49 s
+D05: vorschlag  2 El. ok=False syntax=None 9.24 s
+D06: vorschlag  1 El. ok=False syntax=None 5.91 s
+D07: vorschlag  2 El. ok=False syntax=None 12.36 s
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/eval/messen.py", line 110, in <module>
+    main()
+  File "/app/eval/messen.py", line 98, in main
+    git = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip() or "?"
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/local/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'git'

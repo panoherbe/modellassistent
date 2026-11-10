@@ -143,6 +143,11 @@ class Dienst:
         if fehlend:
             raise ValueError("Einfügen fehlgeschlagen für " + ", ".join(fehlend))
         syntax = self.syntax(text)
+        if syntax.get("geprueft") and not syntax.get("ok"):
+            audit.eintragen(self.con, "freigabe_abgewiesen", {"anfrage": aid, "meldungen": syntax.get("meldungen", [])[:5]},
+                            benutzer)
+            raise ValueError("SysML-v2-Prüfung fehlgeschlagen, kein neuer Modellstand: "
+                             + "; ".join(syntax.get("meldungen", [])[:2]))
         self.con.execute("INSERT INTO modellstand (nr, sha256, text, anfrage_id, syntax, angelegt) VALUES (?,?,?,?,?,?)",
                          (nr + 1, neu.sha256, text, aid, json.dumps(syntax, ensure_ascii=False), jetzt()))
         self.con.execute("UPDATE anfrage SET status='freigegeben' WHERE id=?", (aid,))
@@ -155,10 +160,20 @@ class Dienst:
         """Strukturierte Übergabe: freigegebene Elemente, Beziehungen, Quellen, Stände (für Werkzeuge der Partner)."""
         a = self.anfrage(aid)
         frei = [e["endfassung"] or e for e in a["elemente"] if e["entscheidung"] in ("angenommen", "bearbeitet")]
-        z = self.con.execute("SELECT nr, sha256 FROM modellstand WHERE anfrage_id=?", (aid,)).fetchone()
+        z = self.con.execute("SELECT nr, sha256, syntax FROM modellstand WHERE anfrage_id=?", (aid,)).fetchone()
+        syntax = json.loads(z["syntax"]) if z else {}
         return {"anfrage": aid, "eingabe": a["eingabe"], "status": a["status"],
-                "modellstand": dict(z) if z else None, "sprachmodell": a["vorschlag"]["sprachmodell"],
-                "prompt_version": a["vorschlag"]["prompt_version"],
+                "modellstand": {"nr": z["nr"], "sha256": z["sha256"]} if z else None,
+                "syntax_ok": syntax.get("ok"), "syntax_kernel": syntax.get("kernel"),
+                "sprachmodell": a["vorschlag"]["sprachmodell"], "prompt_version": a["vorschlag"]["prompt_version"],
+                "abgerufen": [q["id"] for q in a["vorschlag"]["abgerufen"]],
+                "entscheidungen": {e["id"]: e["entscheidung"] for e in a["elemente"]},
+                "vorschlag": [{"id": e["id"], "ebene": e["ebene"], "name": e["name"], "typ": e.get("typ"),
+                               "bezuege": e.get("bezuege"), "bezuege_von": e.get("bezuege_von"),
+                               "quellen": e.get("quellen"), "pruefung": e["pruefung"], "befunde": e.get("befunde"),
+                               "entscheidung": e["entscheidung"],
+                               "nachher": {k: (e["endfassung"] or {}).get(k) for k in ("name", "typ", "text")}
+                               if e["endfassung"] else None} for e in a["elemente"]],
                 "elemente": [{k: e.get(k) for k in ("id", "ebene", "name", "text", "typ", "bezuege", "bezuege_von",
-                                                     "quellen")} for e in frei],
+                                                     "quellen", "pruefung", "befunde")} for e in frei],
                 "sysml": sysml.vorschau(frei, self.stand()[1]) if frei else ""}

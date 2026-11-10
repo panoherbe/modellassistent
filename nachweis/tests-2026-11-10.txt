@@ -1,0 +1,2 @@
+docker compose run --rm test   (Testrechner mit RTX 3060, 10.11.2026, nach dem Freigabe-Sperrtest)
+============================== 17 passed in 0.35s ==============================

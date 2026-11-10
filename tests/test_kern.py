@@ -94,6 +94,23 @@ def test_typ_aus_neuem_baustein():
     assert p["typ"] == "Ladespule" and p["bezuege"] == [] and p["pruefung"] == "warnung"
 
 
+def test_typ_neu_verweis():
+    roh = {"status": "vorschlag", "rueckfragen": [], "elemente": [
+        {"ebene": "L", "name": "Signalgeber", "text": "Gibt Warnsignale.", "typ": "", "bezuege": [], "quellen": []},
+        {"ebene": "P", "name": "signalgeber", "typ": "NEU-1", "text": "", "bezuege": [], "quellen": []}]}
+    assert nachbereiten(roh, MODELL, KONTEXT)["elemente"][1]["typ"] == "Signalgeber"
+
+
+def test_neues_l_ziel_wird_neues_teil():
+    roh = {"status": "vorschlag", "rueckfragen": [], "elemente": [
+        {"ebene": "L", "name": "Warnleuchte", "text": "Leuchte.", "typ": "", "bezuege": [], "quellen": []},
+        {"ebene": "P", "name": "warnleuchte", "typ": "Warnleuchte", "text": "", "bezuege": [], "quellen": []},
+        {"ebene": "F", "name": "optischWarnen", "text": "Warnen.", "typ": "", "bezuege": [{"art": "allocate", "ziel": "NEU-1"}],
+         "quellen": []}]}
+    f = nachbereiten(roh, MODELL, KONTEXT)["elemente"][2]
+    assert f["bezuege"] == [{"art": "allocate", "ziel": "P-009"}]
+
+
 def test_l_ziel_wird_teil():
     roh = {"status": "vorschlag", "rueckfragen": [], "elemente": [
         {"ebene": "R", "name": "rampenfaehigkeit", "text": "Rampen bis 4 % mit voller Last.",
@@ -156,3 +173,15 @@ def test_ablauf(tmp_path):
     assert [el["id"] for el in x["elemente"]] == ["P-009", "F-008"]
     ok, n, _ = audit.pruefen(d.con)
     assert ok and n == 6  # geladen, Vorschlag, 3 Entscheidungen, Freigabe
+
+
+def test_freigabe_nur_mit_gueltigem_modell(tmp_path):
+    e = replace(laden(), daten=tmp_path, pruefer_url="")
+    d = Dienst(verbinden(tmp_path / "t.sqlite3"), e, FalschesModell(), FalscherIndex())
+    d.syntax = lambda text: {"geprueft": True, "ok": False, "meldungen": ["ERROR:probe"]}
+    aid = d.anfragen("Rückraum überwachen")
+    for eid in ("L-009", "P-009", "F-008"):
+        d.entscheiden(aid, eid, "angenommen")
+    with pytest.raises(ValueError):
+        d.freigeben(aid)
+    assert d.stand()[0] == 1 and d.anfrage(aid)["status"] == "offen"

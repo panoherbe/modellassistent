@@ -67,6 +67,9 @@ def main(argv=None):
             r["ziele_gefunden"] = [z for z in soll.get("ziele", []) if z in bezug]
             r["elemente_ohne_fehler"] = len(ok_el)
             r["elemente_belegt"] = sum(1 for x in el if any(q.get("belegt") for q in x.get("quellen", [])))
+            rf_el = [x for x in el if x["ebene"] in "RF"]
+            r["rf_elemente"] = len(rf_el)
+            r["rf_mit_beziehung"] = sum(1 for x in rf_el if x.get("bezuege"))
         r["abruf_treffer"] = [q for q in soll.get("quellen", []) if q in abgerufen]
         if ok_el and e.pruefer_url:
             text = einfuegen(basis, sysml.bloecke(ok_el, basis))
@@ -93,6 +96,8 @@ def main(argv=None):
         "ziele_gefunden": sum(len(r.get("ziele_gefunden", [])) for r in vs), "ziele_erwartet": ziel_soll,
         "elemente": len(el_alle), "elemente_ohne_fehler": sum(r.get("elemente_ohne_fehler", 0) for r in vs),
         "elemente_belegt": sum(r.get("elemente_belegt", 0) for r in vs),
+        "rf_elemente": sum(r.get("rf_elemente", 0) for r in vs),
+        "rf_mit_beziehung": sum(r.get("rf_mit_beziehung", 0) for r in vs),
         "abruf_treffer": sum(len(r["abruf_treffer"]) for r in ergebnisse), "abruf_erwartet": quell_soll,
         "syntax_geprueft": len(syn), "syntax_ok": sum(syn),
         "dauer_median_s": round(statistics.median(r["dauer_s"] for r in ergebnisse), 2),

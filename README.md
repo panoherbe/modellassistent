@@ -16,11 +16,15 @@ neuer Modellstand. Das läuft heute, lokal, mit einem offenen Sprachmodell und s
 | Vorschlag | Sprachmodell antwortet nur im festen JSON-Schema (Ebene, Name, Beschreibung, Typ, Beziehungen, Quellen mit Zitat); Kennungen vergibt das Programm |
 | Prüfung | Ebene, Name, Doppelungen, Typ eines Teils, zulässige Beziehungen (R *satisfy* P, F *allocate* P), Quelle aus dem Kontext und Zitat wörtlich belegt; Fehler sperren die unveränderte Übernahme |
 | Mensch entscheidet | je Element annehmen, korrigieren oder ablehnen, keine Sammelübernahme; Freigabe erst, wenn alles entschieden ist |
-| SysML v2 | Text nur aus Vorlagen, an festen Stellen ins Modell eingefügt; das ganze Modell prüft der Jupyter-Kernel der OMG-Pilotimplementierung (`pruefer/`) |
+| SysML v2 | Text nur aus Vorlagen, an festen Stellen ins Modell eingefügt; das ganze Modell prüft der Jupyter-Kernel der OMG-Pilotimplementierung (`pruefer/`); ist es ungültig, entsteht kein neuer Modellstand |
 | Protokoll | nur erweiterbar, Hash-Kette; je Schritt Sprachmodell, Prompt-Version, Quellen mit Stand, Befunde, Entscheidung vorher/nachher, neuer Modellstand |
 | Übergabe | SysML-v2-Text und JSON (`/api/anfrage/{id}/export`), REST mit OpenAPI (`/docs`) |
 
-Messung: `nachweis/` (jeder Lauf mit allen Aufgaben, auch die schlechteren).
+Messung: `nachweis/PROTOKOLL.md` (sechs Läufe am 10.11.2026 mit denselben 24 Aufgaben, jeder Lauf mit allen Aufgaben,
+auch die schlechteren). Letzter Lauf: 21 von 21 Modellen nach dem Einfügen gültig (OMG-Pilotimplementierung),
+30 von 41 Elementen mit wörtlich belegter Quelle, 17 von 17 präzisen Eingaben mit Vorschlag, aber nur 3 von 7 vagen
+oder widersprüchlichen Eingaben mit Rückfrage und 11 von 21 Anforderungen und Funktionen mit Beziehung zu einem Teil.
+Bilder: `medien/bilder/`.
 
 ## Start
 
