@@ -1,0 +1,24 @@
+{% extends "basis.html" %}
+{% block inhalt %}
+<section class="karte">
+<h1>Neue Anforderung oder Modellaufgabe</h1>
+<form method="post" action="/anfrage">
+<textarea name="eingabe" rows="3" placeholder="In Alltagssprache, z. B.: Das Fahrzeug soll ..." required></textarea>
+<div class="zeile"><button type="submit">Vorschlag erzeugen</button>
+<span class="leise">Modell {{ sprachmodell }} · Kontext: Modell und Lastenheft (synthetisch)</span></div>
+</form>
+<p class="leise">Beispiele:</p>
+<ul class="beispiele">{% for b in beispiele %}<li><form method="post" action="/anfrage"><input type="hidden" name="eingabe" value="{{ b }}"><button class="klein">{{ b }}</button></form></li>{% endfor %}</ul>
+</section>
+<section class="karte">
+<h2>Modellstand {{ nr }}</h2>
+<p>{{ zahl.get('R',0) }} Anforderungen (R) · {{ zahl.get('F',0) }} Funktionen (F) · {{ zahl.get('L',0) }} logische Bausteine (L) · {{ zahl.get('P',0) }} physische Teile (P) · {{ beziehungen }} Beziehungen</p>
+<p>SysML-v2-Prüfung (OMG-Pilotimplementierung): {% if syntax.geprueft %}{% if syntax.ok %}<span class="ok">gültig</span>{% else %}<span class="fehler">Fehler</span>{% endif %}{% else %}<span class="warnung">nicht geprüft</span>{% endif %}</p>
+</section>
+<section class="karte">
+<h2>Anfragen</h2>
+<table><tr><th>Nr.</th><th>Eingabe</th><th>Stand</th><th>Zeit (UTC)</th></tr>
+{% for a in anfragen %}<tr><td><a href="/anfrage/{{ a.id }}">{{ a.id }}</a></td><td>{{ a.eingabe }}</td><td><span class="status {{ a.status }}">{{ a.status }}</span></td><td>{{ a.angelegt[:16].replace('T',' ') }}</td></tr>{% endfor %}
+</table>
+</section>
+{% endblock %}

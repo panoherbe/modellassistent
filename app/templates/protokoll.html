@@ -1,0 +1,9 @@
+{% extends "basis.html" %}
+{% block titel %}Protokoll{% endblock %}
+{% block inhalt %}
+<section class="karte"><h1>Protokoll</h1>
+<p>Hash-Kette: {% if ok %}<span class="ok">{{ meldung }}</span>{% else %}<span class="fehler">{{ meldung }}</span>{% endif %} · <a href="/api/protokoll">Export als JSON</a></p>
+<table><tr><th>Nr.</th><th>Zeit (UTC)</th><th>Aktion</th><th>Daten</th><th>Hash</th></tr>
+{% for z in eintraege %}<tr><td>{{ z.nr }}</td><td>{{ z.zeit[:19].replace('T',' ') }}</td><td>{{ z.aktion }}</td><td><code>{{ z.daten|tojson }}</code></td><td><code>{{ z.hash[:10] }}</code></td></tr>{% endfor %}
+</table></section>
+{% endblock %}

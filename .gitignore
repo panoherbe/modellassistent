@@ -1,0 +1,5 @@
+daten/
+__pycache__/
+*.pyc
+.pytest_cache/
+nachweis/neu/

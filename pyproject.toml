@@ -1,0 +1,27 @@
+[project]
+name = "modellassistent"
+version = "0.1.0"
+description = "Prototyp: LLM-Assistenz für SysML-v2-Modellierung mit RFLP-Struktur, Quellenbezug, menschlicher Freigabe und Protokoll (synthetische Daten)"
+requires-python = ">=3.12"
+license = { text = "AGPL-3.0-only" }
+dependencies = [
+    "fastapi==0.115.6",
+    "uvicorn==0.34.0",
+    "jinja2==3.1.5",
+    "python-multipart==0.0.20",
+    "httpx==0.28.1",
+    "pyyaml==6.0.2",
+]
+
+[project.optional-dependencies]
+test = ["pytest==8.3.4"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.setuptools.package-data]
+app = ["templates/*.html", "static/*.css"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"

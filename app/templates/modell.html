@@ -1,0 +1,8 @@
+{% extends "basis.html" %}
+{% block titel %}Modell{% endblock %}
+{% block inhalt %}
+<section class="karte"><h1>Modellstand {{ nr }}</h1>
+<p class="leise">SHA-256 {{ m.sha256[:16] }} · SysML-v2-Prüfung: {% if syntax.geprueft %}{% if syntax.ok %}<span class="ok">gültig</span>{% else %}<span class="fehler">Fehler</span>{% endif %}{% else %}nicht geprüft{% endif %}</p>
+{% if syntax.meldungen %}<ul class="befunde">{% for x in syntax.meldungen %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}
+<pre>{{ m.text }}</pre></section>
+{% endblock %}

@@ -1,0 +1,34 @@
+# Prototyp lokal: Sprachmodell (Ollama, offenes Modell, GPU), SysML-v2-Prüfdienst (OMG-Pilotimplementierung) und
+# Anwendung. Alles bleibt auf diesem Rechner; die Anwendung lauscht nur auf 127.0.0.1.
+#   docker compose up -d                                   # Oberfläche: http://127.0.0.1:${APP_PORT:-8431}
+#   docker compose exec ollama ollama pull qwen2.5:7b-instruct && docker compose exec ollama ollama pull bge-m3
+#   docker compose run --rm test                           # Tests (ohne Sprachmodell)
+#   docker compose run --rm app python -m eval.messen --ausgabe nachweis/neu
+name: modellassistent
+services:
+  ollama:
+    image: ollama/ollama:0.20.6
+    volumes: ["./daten/ollama:/root/.ollama"]
+    environment: [OLLAMA_KEEP_ALIVE=30m]
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: 1, capabilities: [gpu]}]
+  pruefer:
+    build: ./pruefer
+    environment: [HOME=/tmp]
+  app:
+    build: .
+    environment:
+      OLLAMA_URL: http://ollama:11434
+      PRUEFER_URL: http://pruefer:8100
+      SPRACHMODELL: ${SPRACHMODELL:-qwen2.5:7b-instruct}
+      EINBETTUNGSMODELL: ${EINBETTUNGSMODELL:-bge-m3}
+    volumes: ["./daten:/app/daten", "./nachweis:/app/nachweis"]
+    ports: ["127.0.0.1:${APP_PORT:-8431}:8000"]
+    depends_on: [ollama, pruefer]
+  test:
+    build: .
+    environment: {DATENVERZEICHNIS: /tmp/test}
+    entrypoint: ["python", "-m", "pytest", "-q", "tests"]
+    profiles: [test]
