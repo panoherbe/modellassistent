@@ -7,18 +7,20 @@ neuer Modellstand. Das läuft heute, lokal, mit einem offenen Sprachmodell und s
 
 ## Was läuft
 
+**Kurz:** Satz rein, geprüfter SysML-v2-Vorschlag raus; ins Modell kommt nur, was ein Mensch freigibt. Stand 10.11.2026.
+
 | Baustein | Umsetzung |
 |---|---|
 | Systemmodell | synthetisches SysML-v2-Modell eines autonomen Flurförderfahrzeugs in RFLP-Struktur (`modell/ftf.sysml`): 7 Anforderungen, 7 Funktionen, 8 logische Bausteine, das Fahrzeug mit 7 Teilen, 14 Beziehungen (*satisfy*, *allocate*) |
 | Wissensquelle | synthetisches Lastenheft mit 20 Absätzen, je mit Kennung `LH-x.y` (`wissen/`) |
-| Abruf | Einbettungen (bge-m3), sechs Absätze je Eingabe; das kleine Modell geht vollständig als Übersicht in den Kontext |
+| Abruf | Ähnlichkeitssuche über Textvektoren (bge-m3), sechs Absätze je Eingabe; das kleine Modell geht vollständig als Übersicht mit |
 | Klärung | erst prüft das Sprachmodell, ob die Eingabe reicht (Zielwert fehlt, Widerspruch zu einer Quelle, unklar); dann Rückfrage statt Vorschlag |
-| Vorschlag | Sprachmodell antwortet nur im festen JSON-Schema (Ebene, Name, Beschreibung, Typ, Beziehungen, Quellen mit Zitat); Kennungen vergibt das Programm |
+| Vorschlag | Sprachmodell antwortet nur in fester Struktur (JSON-Schema: Ebene, Name, Beschreibung, Typ, Beziehungen, Quellen mit Zitat); Kennungen vergibt das Programm |
 | Prüfung | Ebene, Name, Doppelungen, Typ eines Teils, zulässige Beziehungen (R *satisfy* P, F *allocate* P), Quelle aus dem Kontext und Zitat wörtlich belegt; Fehler sperren die unveränderte Übernahme |
 | Mensch entscheidet | je Element annehmen, korrigieren oder ablehnen, keine Sammelübernahme; Freigabe erst, wenn alles entschieden ist |
 | SysML v2 | Text nur aus Vorlagen, an festen Stellen ins Modell eingefügt; das ganze Modell prüft der Jupyter-Kernel der OMG-Pilotimplementierung (`pruefer/`); ist es ungültig, entsteht kein neuer Modellstand |
-| Protokoll | nur erweiterbar, Hash-Kette; je Schritt Sprachmodell, Prompt-Version, Quellen mit Stand, Befunde, Entscheidung vorher/nachher, neuer Modellstand |
-| Übergabe | SysML-v2-Text und JSON (`/api/anfrage/{id}/export`), REST mit OpenAPI (`/docs`) |
+| Protokoll | Einträge nur anhängbar, jede spätere Änderung fällt auf (Hash-Kette); je Schritt Sprachmodell, Prompt-Version, Quellen mit Stand, Befunde, Entscheidung vorher/nachher, neuer Modellstand |
+| Übergabe | SysML-v2-Text und JSON (`/api/anfrage/{id}/export`), Programmierschnittstelle REST mit OpenAPI (`/docs`) |
 
 Messung: `nachweis/PROTOKOLL.md` (sechs Läufe am 10.11.2026 mit denselben 24 Aufgaben, jeder Lauf mit allen Aufgaben,
 auch die schlechteren). Letzter Lauf: 21 von 21 Modellen nach dem Einfügen gültig (OMG-Pilotimplementierung),
@@ -27,6 +29,8 @@ oder widersprüchlichen Eingaben mit Rückfrage und 11 von 21 Anforderungen und 
 Bilder: `medien/bilder/`.
 
 ## Start
+
+**Kurz:** Drei Softwarepakete (Docker), ein Befehl, eine Grafikkarte mit 8 GB oder mehr.
 
 Voraussetzung: Docker mit Compose, NVIDIA-GPU mit 8 GB oder mehr (gemessen: RTX 3060, 12 GB).
 
@@ -40,6 +44,8 @@ docker compose run --rm app python -m eval.messen --ausgabe nachweis/neu   # Mes
 ```
 
 ## Was der Prototyp nicht ist
+
+**Kurz:** ein Prototyp mit erfundenen Daten, kein Produkt.
 
 Ein Prototyp mit synthetischen Daten. Er liest nur die Teilmenge der SysML-v2-Textnotation, in der das Beispielmodell
 geschrieben ist (die Gültigkeit des ganzen Modells prüft die OMG-Pilotimplementierung); er legt neue Elemente an, ändert
