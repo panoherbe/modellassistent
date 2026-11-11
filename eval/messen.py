@@ -28,7 +28,15 @@ HIER = Path(__file__).parent
 def ollama_digest(e, name: str) -> str:
     try:
         r = httpx.get(f"{e.ollama_url}/api/tags", timeout=20).json()
-        return next((m["digest"][:12] for m in r["models"] if m["name"] == name), "?")
+        voll = name if ":" in name else name + ":latest"
+        return next((m["digest"][:12] for m in r["models"] if m["name"] == voll), "?")
+    except Exception:  # noqa: BLE001
+        return "?"
+
+
+def ollama_version(e) -> str:
+    try:
+        return httpx.get(f"{e.ollama_url}/api/version", timeout=20).json().get("version", "?")
     except Exception:  # noqa: BLE001
         return "?"
 
@@ -40,7 +48,8 @@ def main(argv=None):
     a = ap.parse_args(argv)
     e = laden()
     a.ausgabe.mkdir(parents=True, exist_ok=True)
-    llm = Sprachmodell(e.ollama_url, e.sprachmodell, e.einbettungsmodell, zeitlimit=300)
+    llm = Sprachmodell(e.ollama_url, e.sprachmodell, e.einbettungsmodell, zeitlimit=900, denken=e.denken,
+                       einbettung_cpu=e.einbettung_cpu)
     basis = lesen(e.basismodell.read_text(encoding="utf-8"))
     index = Index(lastenheft(e.wissen), llm, e.daten / "einbettungen.json")
     modellquellen = aus_modell(basis, "ftf.sysml")
@@ -102,6 +111,8 @@ def main(argv=None):
         "syntax_geprueft": len(syn), "syntax_ok": sum(syn),
         "dauer_median_s": round(statistics.median(r["dauer_s"] for r in ergebnisse), 2),
         "dauer_max_s": max(r["dauer_s"] for r in ergebnisse),
+        "ausgabe_tokens_je_s": round(llm.zaehler["ausgabe_tokens"] / llm.zaehler["ausgabe_s"], 1)
+        if llm.zaehler["ausgabe_s"] else None,
     }
     try:
         git = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
@@ -110,7 +121,9 @@ def main(argv=None):
     git = git or os.environ.get("CODE_STAND", "?")
     meta = {"zeit_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "sprachmodell": e.sprachmodell,
             "sprachmodell_digest": ollama_digest(e, e.sprachmodell), "einbettungsmodell": e.einbettungsmodell,
-            "einbettung_digest": ollama_digest(e, e.einbettungsmodell + ":latest"), "prompt_version": PROMPT_VERSION,
+            "einbettung_digest": ollama_digest(e, e.einbettungsmodell), "denken": e.denken,
+            "einbettung_cpu": e.einbettung_cpu,
+            "ollama": ollama_version(e), "prompt_version": PROMPT_VERSION,
             "modell_sha256": basis.sha256[:12], "abruf_k": 6, "temperatur": 0, "code": git,
             "kernel": next((r["syntax"].get("kernel") for r in ergebnisse if "syntax" in r), None)}
     (a.ausgabe / "ergebnisse.json").write_text(json.dumps({"meta": meta, "kennzahlen": kennzahlen,

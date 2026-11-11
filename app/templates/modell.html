@@ -1,8 +1,21 @@
 {% extends "basis.html" %}
 {% block titel %}Modell{% endblock %}
+{% macro element_name(id) %}{% set z = namen.get(id) %}{% if z %}{{ ART[z[0]][0] }} <b>{{ z[1] }}</b>{% else %}{{ id }}{% endif %}{% endmacro %}
 {% block inhalt %}
-<section class="karte"><h1>Modellstand {{ nr }}</h1>
-<p class="leise">SHA-256 {{ m.sha256[:16] }} · SysML-v2-Prüfung: {% if syntax.geprueft %}{% if syntax.ok %}<span class="ok">gültig</span>{% else %}<span class="fehler">Fehler</span>{% endif %}{% else %}nicht geprüft{% endif %}</p>
-{% if syntax.meldungen %}<ul class="befunde">{% for x in syntax.meldungen %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}
-<pre>{{ m.text }}</pre></section>
+<section class="buehne">
+<p class="etikett">Fahrzeugmodell (Beispieldaten)</p>
+<h1>Stand {{ nr }}</h1>
+<p class="siegel {% if syntax.geprueft and syntax.ok %}gut{% else %}offen{% endif %}">{% if syntax.geprueft and syntax.ok %}✓ Von der offiziellen SysML-v2-Software (OMG) geprüft: gültig{% elif syntax.geprueft %}Die Prüfung meldet Fehler{% else %}Noch nicht geprüft{% endif %}</p>
+{% if syntax.meldungen and not syntax.ok %}<ul class="hinweise">{% for x in syntax.meldungen %}<li class="fehler">{{ x }}</li>{% endfor %}</ul>{% endif %}
+</section>
+{% for k, titel in (('R', 'Anforderungen'), ('F', 'Funktionen'), ('P', 'Bauteile'), ('L', 'Bausteintypen')) %}
+<section class="karte gruppe art-{{ k }}">
+<h2>{{ titel }} <span class="anzahl">{{ gruppen[k]|length }}</span></h2>
+<ul class="elemente">{% for e in gruppen[k] %}<li><span class="kennung">{{ e.id }}</span><div><b>{{ e.name }}</b>{% if e.typ %} <span class="leise">· Typ {{ e.typ }}</span>{% endif %}
+{% if e.text %}<br>{{ e.text }}{% endif %}
+{% for art, q, z in m.beziehungen if q == e.id %}<br><span class="leise">{{ 'Erfüllt durch' if art == 'satisfy' else 'Ausgeführt von' }}</span> {{ element_name(z) }}{% endfor %}</div></li>{% endfor %}</ul>
+</section>
+{% endfor %}
+<details class="fach"><summary>Für Fachleute: das Modell als SysML-v2-Text</summary>
+<p class="leise">SHA-256 {{ m.sha256[:16] }}</p><pre>{{ m.text }}</pre></details>
 {% endblock %}

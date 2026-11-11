@@ -1,15 +1,16 @@
 # Prototyp lokal: Sprachmodell (Ollama, offenes Modell, GPU), SysML-v2-Prüfdienst (OMG-Pilotimplementierung) und
 # Anwendung. Alles bleibt auf diesem Rechner; die Anwendung lauscht nur auf 127.0.0.1.
 #   docker compose up -d                                   # Oberfläche: http://127.0.0.1:${APP_PORT:-8431}
-#   docker compose exec ollama ollama pull qwen2.5:7b-instruct && docker compose exec ollama ollama pull bge-m3
+#   docker volume create ollama-modelle                    # einmal: gemeinsamer Modellspeicher
+#   docker compose exec ollama ollama pull qwen3.8:27b && docker compose exec ollama ollama pull embeddinggemma-2
 #   docker compose run --rm test                           # Tests (ohne Sprachmodell)
 #   docker compose run --rm app python -m eval.messen --ausgabe nachweis/neu
 name: modellassistent
 services:
   ollama:
-    image: ollama/ollama:0.20.6
-    volumes: ["./daten/ollama:/root/.ollama"]
-    environment: [OLLAMA_KEEP_ALIVE=30m]
+    image: ollama/ollama:0.40.16
+    volumes: ["ollama-modelle:/root/.ollama"]
+    environment: [OLLAMA_KEEP_ALIVE=30m, OLLAMA_FLASH_ATTENTION=1, OLLAMA_KV_CACHE_TYPE=q8_0]
     deploy:
       resources:
         reservations:
@@ -22,8 +23,10 @@ services:
     environment:
       OLLAMA_URL: http://ollama:11434
       PRUEFER_URL: http://pruefer:8100
-      SPRACHMODELL: ${SPRACHMODELL:-qwen2.5:7b-instruct}
-      EINBETTUNGSMODELL: ${EINBETTUNGSMODELL:-bge-m3}
+      SPRACHMODELL: ${SPRACHMODELL:-qwen3.8:27b}
+      EINBETTUNGSMODELL: ${EINBETTUNGSMODELL:-embeddinggemma-2}
+      DENKEN: ${DENKEN:-0}
+      EINBETTUNG_CPU: ${EINBETTUNG_CPU:-0}
     volumes: ["./daten:/app/daten", "./nachweis:/app/nachweis"]
     ports: ["127.0.0.1:${APP_PORT:-8431}:8000"]
     depends_on: [ollama, pruefer]
@@ -32,3 +35,6 @@ services:
     environment: {DATENVERZEICHNIS: /tmp/test}
     entrypoint: ["python", "-m", "pytest", "-q", "tests"]
     profiles: [test]
+volumes:
+  ollama-modelle:
+    external: true

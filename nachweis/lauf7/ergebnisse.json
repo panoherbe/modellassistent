@@ -1,0 +1,1473 @@
+{
+ "meta": {
+  "zeit_utc": "2026-11-11T16:30:25+00:00",
+  "sprachmodell": "qwen3.8:27b",
+  "sprachmodell_digest": "aaee06c39dcf",
+  "einbettungsmodell": "embeddinggemma-2",
+  "einbettung_digest": "f4981a15b998",
+  "denken": false,
+  "ollama": "0.40.16",
+  "prompt_version": "vorschlag-v4+klaerung-v2+zuordnung-v2",
+  "modell_sha256": "684cdfbafc41",
+  "abruf_k": 6,
+  "temperatur": 0,
+  "code": "lauf7",
+  "kernel": "jupyter-sysml-kernel 0.63.1"
+ },
+ "kennzahlen": {
+  "aufgaben": 24,
+  "vorschlagsaufgaben": 17,
+  "rueckfrageaufgaben": 7,
+  "status_richtig": 23,
+  "vorschlag_richtig": 16,
+  "rueckfrage_richtig": 7,
+  "ebene_richtig": 16,
+  "ziele_gefunden": 7,
+  "ziele_erwartet": 11,
+  "elemente": 22,
+  "elemente_ohne_fehler": 22,
+  "elemente_belegt": 22,
+  "rf_elemente": 14,
+  "rf_mit_beziehung": 14,
+  "abruf_treffer": 22,
+  "abruf_erwartet": 22,
+  "syntax_geprueft": 16,
+  "syntax_ok": 16,
+  "dauer_median_s": 45.26,
+  "dauer_max_s": 68.12,
+  "ausgabe_tokens_je_s": 8.6
+ },
+ "aufgaben": [
+  {
+   "id": "A01",
+   "eingabe": "Das Fahrzeug soll Rampen mit voller Last befahren können.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-002"
+    ],
+    "quellen": [
+     "LH-2.3"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 56.35,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "rampenfahrfaehigkeit",
+     "text": "Das FTF befährt Rampen mit einer Steigung von höchstens 4 % mit voller Last.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-002"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-2.3",
+       "zitat": "Rampen in der Halle haben eine Steigung von höchstens 4 %; das Fahrzeug muss sie mit voller Last befahren.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-2.3",
+    "LH-1.1",
+    "LH-1.3",
+    "LH-2.1",
+    "LH-3.2",
+    "LH-6.2"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> rampenfahrfaehigkeit {\n    doc /* Das FTF befährt Rampen mit einer Steigung von höchstens 4 % mit voller Last. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::rampenfahrfaehigkeit by Physik::ftf.fahrwerk;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [
+    "P-002"
+   ],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-2.3"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A02",
+   "eingabe": "In Bereichen mit Personenverkehr darf das FTF höchstens 0,8 m/s fahren.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-002"
+    ],
+    "quellen": [
+     "LH-2.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 44.6,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "fahrgeschwindigkeitPersonenverkehr",
+     "text": "In Bereichen mit Personenverkehr darf das FTF höchstens 0,8 m/s fahren.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-002"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-2.2",
+       "zitat": "in Bereichen mit Personenverkehr gilt 0,8 m/s",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-2.2",
+    "LH-1.3",
+    "LH-2.4",
+    "LH-4.3",
+    "LH-2.3",
+    "LH-3.2"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> fahrgeschwindigkeitPersonenverkehr {\n    doc /* In Bereichen mit Personenverkehr darf das FTF höchstens 0,8 m/s fahren. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::fahrgeschwindigkeitPersonenverkehr by Physik::ftf.fahrwerk;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [
+    "P-002"
+   ],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-2.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A03",
+   "eingabe": "Das Fahrzeug darf nicht breiter als 900 mm sein.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-001"
+    ],
+    "quellen": [
+     "LH-2.4"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 40.8,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "fahrzeugbreite",
+     "text": "Die Fahrzeugbreite darf 900 mm nicht überschreiten.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-001"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-2.4",
+       "zitat": "Die Fahrzeugbreite darf 900 mm nicht überschreiten",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-2.4",
+    "LH-2.3",
+    "LH-6.1",
+    "LH-1.3",
+    "LH-4.2",
+    "LH-1.1"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> fahrzeugbreite {\n    doc /* Die Fahrzeugbreite darf 900 mm nicht überschreiten. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::fahrzeugbreite by Physik::ftf;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [
+    "P-001"
+   ],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-2.4"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A04",
+   "eingabe": "Bei einem Ladestand unter 15 % soll das FTF keine neuen Fahraufträge annehmen.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-3.3"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 43.86,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "ladestandSchwelle",
+     "text": "Bei einem Ladestand unter 15 % nimmt das FTF keine neuen Fahraufträge an.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-006"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.3",
+       "zitat": "Bei einem Ladestand unter 15 % nimmt das Fahrzeug keine neuen Fahraufträge an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-3.3",
+    "LH-3.2",
+    "LH-5.2",
+    "LH-2.3",
+    "LH-4.3",
+    "LH-5.1"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> ladestandSchwelle {\n    doc /* Bei einem Ladestand unter 15 % nimmt das FTF keine neuen Fahraufträge an. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::ladestandSchwelle by Physik::ftf.akku;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-3.3"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A05",
+   "eingabe": "Das FTF muss Position, Ladestand und Störungen jede Sekunde an das Leitsystem melden.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-007"
+    ],
+    "quellen": [
+     "LH-5.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 48.41,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "statusmelderhythmus",
+     "text": "Das FTF meldet Position, Ladestand und Störungen mindestens einmal pro Sekunde an das Leitsystem.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-007"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-5.2",
+       "zitat": "Das Fahrzeug meldet Position, Ladestand und Störungen mindestens einmal pro Sekunde an das Leitsystem.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-5.2",
+    "LH-3.2",
+    "LH-3.3",
+    "LH-5.1",
+    "LH-1.2",
+    "LH-6.1"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> statusmelderhythmus {\n    doc /* Das FTF meldet Position, Ladestand und Störungen mindestens einmal pro Sekunde an das Leitsystem. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::statusmelderhythmus by Physik::ftf.funk;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [
+    "P-007"
+   ],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-5.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A06",
+   "eingabe": "Bei Verbindungsverlust von mehr als 5 Sekunden soll das FTF kontrolliert anhalten.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-5.3"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 45.59,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "verbindungsverlustReaktion",
+     "text": "Bei Verbindungsverlust von mehr als 5 Sekunden hält das FTF kontrolliert an.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-007"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-5.3",
+       "zitat": "Bei Verbindungsverlust länger als 5 Sekunden hält das Fahrzeug kontrolliert an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-5.3",
+    "LH-4.3",
+    "LH-5.2",
+    "LH-1.2",
+    "LH-3.3",
+    "LH-5.1"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> verbindungsverlustReaktion {\n    doc /* Bei Verbindungsverlust von mehr als 5 Sekunden hält das FTF kontrolliert an. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::verbindungsverlustReaktion by Physik::ftf.funk;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-5.3"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A07",
+   "eingabe": "Die Lastaufnahme soll Ladungsträger um bis zu 120 mm anheben.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-005"
+    ],
+    "quellen": [
+     "LH-6.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 44.14,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "hubhoehe",
+     "text": "Die Lastaufnahme hebt Ladungsträger um bis zu 120 mm an.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-005"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-6.2",
+       "zitat": "Die Lastaufnahme hebt Ladungsträger um bis zu 120 mm an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-6.2",
+    "LH-2.1",
+    "LH-1.1",
+    "LH-2.3",
+    "LH-1.2",
+    "LH-6.1"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> hubhoehe {\n    doc /* Die Lastaufnahme hebt Ladungsträger um bis zu 120 mm an. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::hubhoehe by Physik::ftf.hubwerk;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [
+    "P-005"
+   ],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-6.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "A08",
+   "eingabe": "Das FTF transportiert Gitterboxen und Europaletten.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-005"
+    ],
+    "quellen": [
+     "LH-1.1"
+    ]
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Welche spezifische Eigenschaft oder Anforderung (z. B. Abmessungen, Gewicht, Kompatibilität) soll für die Gitterboxen und Europaletten definiert werden?",
+    "Soll die Anforderung sich auf die physische Aufnahme (z. B. Hubhöhe, Spannweite) oder auf die Transportfähigkeit (z. B. Stabilität) beziehen?"
+   ],
+   "dauer_s": 50.38,
+   "elemente": [],
+   "abgerufen": [
+    "LH-1.1",
+    "LH-1.3",
+    "LH-2.1",
+    "LH-5.1",
+    "LH-2.4",
+    "LH-2.3"
+   ],
+   "sysml": "",
+   "status_richtig": false,
+   "ebene_richtig": false,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 0,
+   "elemente_belegt": 0,
+   "rf_elemente": 0,
+   "rf_mit_beziehung": 0,
+   "abruf_treffer": [
+    "LH-1.1"
+   ]
+  },
+  {
+   "id": "A09",
+   "eingabe": "Das Fahrzeug muss im Zweischichtbetrieb mit 30 Minuten Ladepause zwischen den Schichten auskommen.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "R"
+    ],
+    "ziele": [
+     "P-006"
+    ],
+    "quellen": [
+     "LH-1.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 51.94,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "zweischichtbetrieb",
+     "text": "Das FTF ist für einen Zweischichtbetrieb ausgelegt, bei dem zwischen den Schichten 30 Minuten zum Laden zur Verfügung stehen.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-006"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-1.2",
+       "zitat": "Der Betrieb läuft im Zweischichtbetrieb an fünf Tagen pro Woche; zwischen den Schichten bleiben 30 Minuten zum Laden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-1.2",
+    "LH-3.2",
+    "LH-3.3",
+    "LH-5.2",
+    "LH-3.1",
+    "LH-2.3"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> zweischichtbetrieb {\n    doc /* Das FTF ist für einen Zweischichtbetrieb ausgelegt, bei dem zwischen den Schichten 30 Minuten zum Laden zur Verfügung stehen. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::zweischichtbetrieb by Physik::ftf.akku;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [
+    "P-006"
+   ],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-1.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "B01",
+   "eingabe": "Ergänze eine Funktion, mit der das Fahrzeug bei niedrigem Ladestand selbst zur Ladestation fährt.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "F"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-3.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 51.08,
+   "elemente": [
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "ladestationAnfahren",
+     "text": "Bei niedrigem Ladestand zur Ladestation navigieren und dort ankommen.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "allocate",
+       "ziel": "P-003"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.2",
+       "zitat": "Das Fahrzeug fährt bei niedrigem Ladestand selbstständig zur Ladestation",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-3.2",
+    "LH-3.3",
+    "LH-5.2",
+    "LH-2.3",
+    "LH-6.1",
+    "LH-4.1"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> ladestationAnfahren {\n    doc /* Bei niedrigem Ladestand zur Ladestation navigieren und dort ankommen. */\n}\n\n// in Verknuepfungen\nallocate Funktionen::ladestationAnfahren to Physik::ftf.rechner;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-3.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "B02",
+   "eingabe": "Das FTF soll vor dem Anfahren und bei Richtungswechseln akustisch und optisch warnen.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "F",
+     "R"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-4.5"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 55.22,
+   "elemente": [
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "warnsignal",
+     "text": "Das FTF warnt vor dem Anfahren und bei Richtungswechseln akustisch und optisch.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-008"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.5",
+       "zitat": "Akustische und optische Warnsignale kündigen das Anfahren und Richtungswechsel an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "warnsignalAusloesen",
+     "text": "Akustische und optische Warnsignale vor dem Anfahren und bei Richtungswechseln auslösen.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "allocate",
+       "ziel": "P-008"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.5",
+       "zitat": "Akustische und optische Warnsignale kündigen das Anfahren und Richtungswechsel an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-4.5",
+    "LH-4.1",
+    "LH-4.3",
+    "LH-5.2",
+    "LH-1.3",
+    "LH-5.1"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> warnsignal {\n    doc /* Das FTF warnt vor dem Anfahren und bei Richtungswechseln akustisch und optisch. */\n}\n\n// in Funktionen\naction <'F-008'> warnsignalAusloesen {\n    doc /* Akustische und optische Warnsignale vor dem Anfahren und bei Richtungswechseln auslösen. */\n}\n\n// in Verknuepfungen\nsatisfy Anforderungen::warnsignal by Physik::ftf.sicherheitssteuerung;\nallocate Funktionen::warnsignalAusloesen to Physik::ftf.sicherheitssteuerung;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 2,
+   "rf_elemente": 2,
+   "rf_mit_beziehung": 2,
+   "abruf_treffer": [
+    "LH-4.5"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "B03",
+   "eingabe": "Füge eine Funktion zum Melden von Störungen an das Leitsystem hinzu.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "F"
+    ],
+    "ziele": [
+     "P-007"
+    ],
+    "quellen": [
+     "LH-5.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 44.92,
+   "elemente": [
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "stoerungenMelden",
+     "text": "Störungen des Fahrzeugs an das Leitsystem melden.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "allocate",
+       "ziel": "P-007"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-5.2",
+       "zitat": "Das Fahrzeug meldet Position, Ladestand und Störungen mindestens einmal pro Sekunde an das Leitsystem.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-5.2",
+    "LH-5.1",
+    "LH-4.1",
+    "LH-4.5",
+    "LH-1.3",
+    "LH-4.3"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> stoerungenMelden {\n    doc /* Störungen des Fahrzeugs an das Leitsystem melden. */\n}\n\n// in Verknuepfungen\nallocate Funktionen::stoerungenMelden to Physik::ftf.funk;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [
+    "P-007"
+   ],
+   "elemente_ohne_fehler": 1,
+   "elemente_belegt": 1,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-5.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C01",
+   "eingabe": "Bei Rückwärtsfahrt muss auch hinter dem Fahrzeug überwacht werden; ergänze dafür einen zweiten Scanner.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "P"
+    ],
+    "ziele": [
+     "R-003"
+    ],
+    "quellen": [
+     "LH-4.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 51.1,
+   "elemente": [
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "scannerHinten",
+     "text": "Sicherheitslaserscanner zur Überwachung des Schutzfeldes hinter dem Fahrzeug.",
+     "typ": "Sicherheitslaserscanner",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "R-008",
+     "ebene": "R",
+     "name": "schutzfeldHinten",
+     "text": "Bei Rückwärtsfahrt wird das Schutzfeld hinter dem Fahrzeug überwacht.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "satisfy",
+       "ziel": "P-009"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-4.2",
+    "LH-4.1",
+    "LH-5.2",
+    "LH-4.5",
+    "LH-3.3",
+    "LH-2.3"
+   ],
+   "sysml": "// in Anforderungen\nrequirement <'R-008'> schutzfeldHinten {\n    doc /* Bei Rückwärtsfahrt wird das Schutzfeld hinter dem Fahrzeug überwacht. */\n}\n\n// in Physik::ftf\npart <'P-009'> scannerHinten : Logik::Sicherheitslaserscanner;\n\n// in Verknuepfungen\nsatisfy Anforderungen::schutzfeldHinten by Physik::ftf.scannerHinten;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 2,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-4.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C02",
+   "eingabe": "Ergänze eine Warnleuchte mit Signalgeber als neuen Baustein und baue sie ins Fahrzeug ein.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "L",
+     "P"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-4.5"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 55.5,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "Warnleuchte",
+     "text": "Optisches Warnsignal zur Ankündigung von Anfahren und Richtungswechsel.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.5",
+       "zitat": "Akustische und optische Warnsignale kündigen das Anfahren und Richtungswechsel an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "warnleuchte",
+     "text": "Warnleuchte mit Signalgeber im Fahrzeug.",
+     "typ": "Warnleuchte",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.5",
+       "zitat": "Akustische und optische Warnsignale kündigen das Anfahren und Richtungswechsel an.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-4.5",
+    "LH-5.2",
+    "LH-4.1",
+    "LH-1.1",
+    "LH-4.3",
+    "LH-2.4"
+   ],
+   "sysml": "// in Logik\npart def <'L-009'> Warnleuchte {\n    doc /* Optisches Warnsignal zur Ankündigung von Anfahren und Richtungswechsel. */\n}\n\n// in Physik::ftf\npart <'P-009'> warnleuchte : Logik::Warnleuchte;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 2,
+   "rf_elemente": 0,
+   "rf_mit_beziehung": 0,
+   "abruf_treffer": [
+    "LH-4.5"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C03",
+   "eingabe": "Für das kontaktlose Laden braucht das Fahrzeug eine Ladespule.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "L",
+     "P"
+    ],
+    "ziele": [],
+    "quellen": [
+     "LH-3.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 47.82,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "Ladespule",
+     "text": "Spule für das kontaktlose Laden des Energiespeichers.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.2",
+       "zitat": "lädt dort kontaktlos",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "ladespule",
+     "text": "Ladespule im Fahrzeug für das kontaktlose Laden.",
+     "typ": "Ladespule",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-3.2",
+       "zitat": "lädt dort kontaktlos",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-3.2",
+    "LH-3.3",
+    "LH-1.2",
+    "LH-5.2",
+    "LH-5.3",
+    "LH-6.1"
+   ],
+   "sysml": "// in Logik\npart def <'L-009'> Ladespule {\n    doc /* Spule für das kontaktlose Laden des Energiespeichers. */\n}\n\n// in Physik::ftf\npart <'P-009'> ladespule : Logik::Ladespule;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 2,
+   "rf_elemente": 0,
+   "rf_mit_beziehung": 0,
+   "abruf_treffer": [
+    "LH-3.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C04",
+   "eingabe": "Ergänze einen Not-Halt-Taster auf der rechten Fahrzeugseite.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "L",
+     "P"
+    ],
+    "ziele": [
+     "R-006"
+    ],
+    "quellen": [
+     "LH-4.4"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 68.12,
+   "elemente": [
+    {
+     "id": "L-009",
+     "ebene": "L",
+     "name": "NotHaltTaster",
+     "text": "Mechanischer Taster zur manuellen Auslösung des Not-Halts.",
+     "typ": null,
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.4",
+       "zitat": "Not-Halt-Taster befinden sich an beiden Längsseiten des Fahrzeugs.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "notHaltTasterRechts",
+     "text": "Not-Halt-Taster auf der rechten Fahrzeugseite.",
+     "typ": "NotHaltTaster",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.4",
+       "zitat": "Not-Halt-Taster befinden sich an beiden Längsseiten des Fahrzeugs.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-4.4",
+    "LH-4.3",
+    "LH-4.5",
+    "LH-5.2",
+    "LH-4.1",
+    "LH-2.4"
+   ],
+   "sysml": "// in Logik\npart def <'L-009'> NotHaltTaster {\n    doc /* Mechanischer Taster zur manuellen Auslösung des Not-Halts. */\n}\n\n// in Physik::ftf\npart <'P-009'> notHaltTasterRechts : Logik::NotHaltTaster;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 2,
+   "rf_elemente": 0,
+   "rf_mit_beziehung": 0,
+   "abruf_treffer": [
+    "LH-4.4"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "C05",
+   "eingabe": "Lege den hinteren Scanner an und ordne ihm zusätzlich die Funktion Hindernisse erkennen zu.",
+   "erwartet": {
+    "status": "vorschlag",
+    "ebenen": [
+     "P"
+    ],
+    "ziele": [
+     "F-003"
+    ],
+    "quellen": [
+     "LH-4.2"
+    ]
+   },
+   "status": "vorschlag",
+   "rueckfragen": [],
+   "dauer_s": 58.31,
+   "elemente": [
+    {
+     "id": "P-009",
+     "ebene": "P",
+     "name": "scannerHinten",
+     "text": "Sicherheitslaserscanner zur Überwachung des Schutzfelds hinter dem Fahrzeug.",
+     "typ": "Sicherheitslaserscanner",
+     "bezuege": [],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    },
+    {
+     "id": "F-008",
+     "ebene": "F",
+     "name": "hindernisseHintenErkennen",
+     "text": "Hindernisse im hinteren Schutzfeld erkennen.",
+     "typ": null,
+     "bezuege": [
+      {
+       "art": "allocate",
+       "ziel": "P-009"
+      }
+     ],
+     "bezuege_von": null,
+     "quellen": [
+      {
+       "quelle": "LH-4.2",
+       "zitat": "Bei Rückwärtsfahrt muss das Schutzfeld hinter dem Fahrzeug ebenso überwacht werden.",
+       "belegt": true
+      }
+     ],
+     "pruefung": "ok",
+     "befunde": []
+    }
+   ],
+   "abgerufen": [
+    "LH-4.1",
+    "LH-4.2",
+    "LH-5.2",
+    "LH-5.1",
+    "LH-2.3",
+    "LH-6.1"
+   ],
+   "sysml": "// in Funktionen\naction <'F-008'> hindernisseHintenErkennen {\n    doc /* Hindernisse im hinteren Schutzfeld erkennen. */\n}\n\n// in Physik::ftf\npart <'P-009'> scannerHinten : Logik::Sicherheitslaserscanner;\n\n// in Verknuepfungen\nallocate Funktionen::hindernisseHintenErkennen to Physik::ftf.scannerHinten;",
+   "status_richtig": true,
+   "ebene_richtig": true,
+   "ziele_gefunden": [],
+   "elemente_ohne_fehler": 2,
+   "elemente_belegt": 2,
+   "rf_elemente": 1,
+   "rf_mit_beziehung": 1,
+   "abruf_treffer": [
+    "LH-4.2"
+   ],
+   "syntax": {
+    "ok": true,
+    "meldungen": [],
+    "kernel": "jupyter-sysml-kernel 0.63.1"
+   }
+  },
+  {
+   "id": "D01",
+   "eingabe": "Das FTF soll schneller werden.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-2.2"
+    ]
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Welche neue Höchstgeschwindigkeit soll das FTF im Automatikbetrieb erreichen?"
+   ],
+   "dauer_s": 20.03,
+   "elemente": [],
+   "abgerufen": [
+    "LH-2.2",
+    "LH-1.3",
+    "LH-1.2",
+    "LH-4.3",
+    "LH-5.3",
+    "LH-5.1"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": [
+    "LH-2.2"
+   ]
+  },
+  {
+   "id": "D02",
+   "eingabe": "Die Nutzlast soll erhöht werden.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-2.1"
+    ]
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Wie hoch soll die neue maximale Nutzlast in kg sein?"
+   ],
+   "dauer_s": 18.21,
+   "elemente": [],
+   "abgerufen": [
+    "LH-2.1",
+    "LH-2.3",
+    "LH-6.2",
+    "LH-3.3",
+    "LH-1.3",
+    "LH-5.2"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": [
+    "LH-2.1"
+   ]
+  },
+  {
+   "id": "D03",
+   "eingabe": "Ergänze einen Sensor.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": []
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Welchen Zweck soll der neue Sensor erfüllen (z. B. Temperaturmessung, Abstandserfassung, Lichterkennung)?",
+    "An welcher Stelle des Fahrzeugs soll der Sensor eingebaut werden?"
+   ],
+   "dauer_s": 29.63,
+   "elemente": [],
+   "abgerufen": [
+    "LH-4.1",
+    "LH-5.2",
+    "LH-6.1",
+    "LH-5.1",
+    "LH-2.3",
+    "LH-5.3"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": []
+  },
+  {
+   "id": "D04",
+   "eingabe": "Die Akkulaufzeit soll verbessert werden.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-3.1"
+    ]
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Wie hoch soll die neue Mindest-Akkulaufzeit sein?"
+   ],
+   "dauer_s": 19.78,
+   "elemente": [],
+   "abgerufen": [
+    "LH-3.1",
+    "LH-1.2",
+    "LH-5.3",
+    "LH-5.2",
+    "LH-3.3",
+    "LH-3.2"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": [
+    "LH-3.1"
+   ]
+  },
+  {
+   "id": "D05",
+   "eingabe": "Das Fahrzeug soll 2000 kg tragen können.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-2.1"
+    ]
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Soll die Nutzlast tatsächlich auf 2000 kg erhöht werden, was einen Widerspruch zur Lastenheft-Anforderung (max. 500 kg) darstellt?"
+   ],
+   "dauer_s": 22.36,
+   "elemente": [],
+   "abgerufen": [
+    "LH-2.1",
+    "LH-1.1",
+    "LH-2.3",
+    "LH-2.4",
+    "LH-6.2",
+    "LH-1.3"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": [
+    "LH-2.1"
+   ]
+  },
+  {
+   "id": "D06",
+   "eingabe": "Die Höchstgeschwindigkeit im Automatikbetrieb soll 3 m/s betragen.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": [
+     "LH-2.2"
+    ]
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Soll die Höchstgeschwindigkeit tatsächlich auf 3 m/s erhöht werden, obwohl das Lastenheft 1,5 m/s vorgibt?"
+   ],
+   "dauer_s": 20.73,
+   "elemente": [],
+   "abgerufen": [
+    "LH-2.2",
+    "LH-1.2",
+    "LH-5.2",
+    "LH-3.2",
+    "LH-3.1",
+    "LH-5.3"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": [
+    "LH-2.2"
+   ]
+  },
+  {
+   "id": "D07",
+   "eingabe": "Mach das Fahrzeug sicherer.",
+   "erwartet": {
+    "status": "rueckfrage",
+    "quellen": []
+   },
+   "status": "rueckfrage",
+   "rueckfragen": [
+    "Welche konkrete Sicherheitsanforderung soll erfüllt werden (z. B. Reaktionszeit, Schutzfeldweite)?",
+    "Soll ein bestimmter Sicherheitsbaustein ergänzt oder eine bestehende Funktion modifiziert werden?"
+   ],
+   "dauer_s": 31.91,
+   "elemente": [],
+   "abgerufen": [
+    "LH-4.1",
+    "LH-4.3",
+    "LH-5.2",
+    "LH-2.4",
+    "LH-3.2",
+    "LH-4.2"
+   ],
+   "sysml": "",
+   "status_richtig": true,
+   "abruf_treffer": []
+  }
+ ]
+}

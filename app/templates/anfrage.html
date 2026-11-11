@@ -1,49 +1,78 @@
 {% extends "basis.html" %}
-{% block titel %}Anfrage {{ a.id }}{% endblock %}
+{% block titel %}Vorschlag {{ a.id }}{% endblock %}
+{% macro quelle(id) %}{% if id.startswith('LH-') %}Lastenheft, Abschnitt {{ id[3:] }}{% else %}Modell, {{ id }}{% endif %}{% endmacro %}
+{% macro element_name(id) %}{% set z = namen.get(id) %}{% if z %}{{ ART[z[0]][0] }} <b>{{ z[1] }}</b>{% else %}{{ id }}{% endif %}{% endmacro %}
 {% block inhalt %}
-{% if fehler %}<p class="meldung fehler">{{ fehler }}</p>{% endif %}
-<section class="karte">
-<p class="leise">Anfrage {{ a.id }} · Modellstand {{ a.modell_stand }} · {{ v.sprachmodell }} · Prompt {{ v.prompt_version }} · {{ v.dauer_s }} s</p>
-<h1>„{{ a.eingabe }}“</h1>
-<p>Stand: <span class="status {{ a.status }}">{{ a.status }}</span></p>
-{% if v.status == 'rueckfrage' %}
-<div class="rueckfrage"><h2>Rückfrage des Assistenten</h2><ul>{% for f in v.rueckfragen %}<li>{{ f }}</li>{% endfor %}</ul>
-<p class="leise">Kein Vorschlag: Die Eingabe reicht für ein prüfbares Modellelement nicht. Bitte präzisieren und neu stellen.</p></div>
+{% set n = a.elemente|length %}
+<ol class="schritte">
+<li class="{{ 'aktiv' if a.status == 'rueckfrage' else 'fertig' }}"><span>1</span>Beschreiben</li>
+<li class="{{ 'aktiv' if a.status == 'offen' else ('fertig' if a.status in ('freigegeben', 'verworfen') else '') }}"><span>2</span>Prüfen</li>
+<li class="{{ 'fertig' if a.status in ('freigegeben', 'verworfen') else '' }}"><span>3</span>Übernehmen</li></ol>
+{% if fehler %}<p class="meldung">{{ fehler|klartext }}</p>{% endif %}
+
+<section class="buehne">
+<p class="etikett">Ihr Wunsch</p>
+<h1 class="zitat">„{{ a.eingabe }}“</h1>
+{% if a.status == 'rueckfrage' %}
+<div class="rueckfrage"><h2>Bitte etwas genauer</h2>
+<p>Für einen prüfbaren Vorschlag fehlt dem Assistenten noch eine Angabe:</p>
+<ul>{% for f in v.rueckfragen %}<li>{{ f }}</li>{% endfor %}</ul></div>
+<form method="post" action="/anfrage" class="mit-warten eingabe">
+<textarea name="eingabe" rows="3" required>{{ a.eingabe }}</textarea>
+<button type="submit" class="haupt">Neu versuchen</button></form>
+{% elif a.status == 'offen' %}
+<p class="unterzeile">Der Assistent schlägt {{ n }} {{ 'Ergänzung' if n == 1 else 'Ergänzungen' }} vor. Entscheiden Sie bei
+jeder: übernehmen, ändern oder verwerfen.</p>
+{% elif a.status == 'freigegeben' %}
+<div class="erfolg"><b>✓ Übernommen.</b> Das Modell hat jetzt Stand {{ nr }}{% if syntax.geprueft and syntax.ok %} und ist
+von der offiziellen SysML-v2-Software geprüft: gültig{% endif %}.
+<a href="/modell">Modell ansehen</a> · <a href="/protokoll">Nachvollziehen</a> · <a href="/">Nächste Änderung</a></div>
+{% elif a.status == 'verworfen' %}
+<div class="erfolg neutral">Alles verworfen, das Modell bleibt unverändert. <a href="/">Nächste Änderung</a></div>
 {% endif %}
 </section>
-{% for e in a.elemente %}
-<section class="karte element" id="{{ e.id }}">
-<div class="kopf"><span class="ebene e{{ e.ebene }}">{{ e.ebene }}</span><b>{{ e.id }} {{ (e.endfassung or e).name }}</b>
-{% if e.ebene == 'P' %}<span class="leise">: {{ (e.endfassung or e).typ }}</span>{% endif %}
-<span class="pruefung {{ e.pruefung }}">Prüfung: {{ e.pruefung }}</span>
-{% if e.entscheidung %}<span class="entscheidung">{{ e.entscheidung }}</span>{% endif %}</div>
-<p>{{ (e.endfassung or e).text }}</p>
-<div class="spalten">
-<div><h3>Beziehungen</h3><ul>{% for b in (e.endfassung or e).bezuege %}<li>{{ b.art }} → {{ b.ziel }}</li>{% endfor %}
-{% for b in (e.endfassung or e).bezuege_von or [] %}<li>{{ b.quelle }} {{ b.art }} → dieses Teil</li>{% endfor %}
-{% if not (e.endfassung or e).bezuege and not (e.endfassung or e).bezuege_von %}<li class="leise">keine</li>{% endif %}</ul></div>
-<div><h3>Quellen</h3><ul>{% for q in e.quellen %}<li><b>{{ q.quelle }}</b> {% if q.belegt %}<span class="ok">belegt</span>{% else %}<span class="warnung">nicht belegt</span>{% endif %}<br><q>{{ q.zitat }}</q></li>{% else %}<li class="leise">keine</li>{% endfor %}</ul></div>
-</div>
-{% if e.befunde %}<ul class="befunde">{% for b in e.befunde %}<li class="{{ b.stufe }}">{{ b.stufe }}: {{ b.text }}</li>{% endfor %}</ul>{% endif %}
+
+{% for e in a.elemente %}{% set f = e.endfassung or e %}
+<section class="element art-{{ e.ebene }}{% if e.entscheidung %} entschieden{% endif %}" id="{{ e.id }}" data-name="{{ e.name }}">
+<div class="kopf"><span class="art">{{ ART[e.ebene][1] }}</span>
+{% if e.entscheidung == 'angenommen' %}<span class="ergebnis gut">✓ übernommen</span>
+{% elif e.entscheidung == 'bearbeitet' %}<span class="ergebnis gut">✓ geändert übernommen</span>
+{% elif e.entscheidung == 'abgelehnt' %}<span class="ergebnis aus">verworfen</span>{% endif %}</div>
+<p class="aussage">{{ f.text or ('Bauteil vom Typ ' ~ f.typ) }}</p>
+<ul class="fakten">
+<li><span>Name im Modell</span>{{ f.name }}</li>
+{% if e.ebene == 'P' %}<li><span>Bausteintyp</span>{{ f.typ }}</li>{% endif %}
+{% for b in f.bezuege %}<li><span>{{ 'Erfüllt durch' if b.art == 'satisfy' else 'Ausgeführt von' }}</span>{{ element_name(b.ziel) }}</li>{% endfor %}
+{% for b in f.bezuege_von or [] %}<li><span>{{ 'Erfüllt' if b.art == 'satisfy' else 'Führt aus' }}</span>{{ element_name(b.quelle) }}</li>{% endfor %}
+</ul>
+{% for q in e.quellen %}<blockquote class="beleg{% if q.belegt %} gut{% endif %}"><span class="herkunft">{{ quelle(q.quelle) }}{% if q.belegt %} · ✓ wörtlich gefunden{% endif %}</span>„{{ q.zitat }}“</blockquote>{% endfor %}
+{% if e.befunde and not e.entscheidung %}<ul class="hinweise">{% for b in e.befunde %}<li class="{{ b.stufe }}">{% if b.stufe == 'fehler' %}Muss korrigiert werden: {% endif %}{{ b.text|klartext }}</li>{% endfor %}</ul>{% endif %}
 {% if a.status == 'offen' and not e.entscheidung %}
-<div class="entscheiden">
-<form method="post" action="/anfrage/{{ a.id }}/element/{{ e.id }}"><input type="hidden" name="art" value="angenommen"><button {% if e.pruefung == 'fehler' %}disabled title="Prüffehler: korrigieren oder ablehnen"{% endif %}>Annehmen</button></form>
-<form method="post" action="/anfrage/{{ a.id }}/element/{{ e.id }}"><input type="hidden" name="art" value="abgelehnt"><button class="neben">Ablehnen</button></form>
-<details><summary>Korrigieren</summary>
+<div class="aktionen">
+<form method="post" action="/anfrage/{{ a.id }}/element/{{ e.id }}"><input type="hidden" name="art" value="angenommen"><button class="gut" {% if e.pruefung == 'fehler' %}disabled title="Erst ändern oder verwerfen"{% endif %}>✓ Übernehmen</button></form>
+<details class="aendern"><summary>Ändern</summary>
 <form method="post" action="/anfrage/{{ a.id }}/element/{{ e.id }}" class="korrektur"><input type="hidden" name="art" value="bearbeitet">
-<label>Name <input name="name" value="{{ e.name }}"></label>
 <label>Beschreibung <textarea name="text" rows="2">{{ e.text }}</textarea></label>
-{% if e.ebene == 'P' %}<label>Typ (L) <input name="typ" value="{{ e.typ }}"></label>{% endif %}
-{% if e.ebene in 'RF' %}<label>Ziele ({{ 'satisfy' if e.ebene == 'R' else 'allocate' }}, Kennungen mit Komma) <input name="ziele" value="{{ e.bezuege|map(attribute='ziel')|join(', ') }}"></label>{% endif %}
-<button>Korrektur übernehmen</button></form></details>
+<label>Name im Modell <input name="name" value="{{ e.name }}"></label>
+{% if e.ebene == 'P' %}<label>Bausteintyp <input name="typ" value="{{ e.typ }}"></label>{% endif %}
+{% if e.ebene in 'RF' %}<label>{{ 'Erfüllt durch' if e.ebene == 'R' else 'Ausgeführt von' }} (Kennung des Bauteils, z. B. P-004) <input name="ziele" value="{{ e.bezuege|map(attribute='ziel')|join(', ') }}"></label>{% endif %}
+<button class="gut">Geändert übernehmen</button></form></details>
+<form method="post" action="/anfrage/{{ a.id }}/element/{{ e.id }}"><input type="hidden" name="art" value="abgelehnt"><button class="still">Verwerfen</button></form>
 </div>{% endif %}
 </section>
 {% endfor %}
-{% if v.sysml %}<section class="karte"><h2>SysML v2 nach Freigabe</h2><pre>{{ v.sysml }}</pre></section>{% endif %}
-{% if a.status == 'offen' %}<section class="karte"><form method="post" action="/anfrage/{{ a.id }}/freigeben"><button>Freigeben und ins Modell übernehmen</button></form>
-<p class="leise">Erst wenn jedes Element angenommen, korrigiert oder abgelehnt ist. Danach entsteht ein neuer Modellstand, geprüft mit der OMG-Pilotimplementierung.</p></section>{% endif %}
-{% if a.status == 'freigegeben' %}<section class="karte"><p><a href="/api/anfrage/{{ a.id }}/export">Übergabe als JSON</a> · <a href="/modell">neuer Modellstand</a></p></section>{% endif %}
-<section class="karte"><details><summary>Kontext und Rohantwort</summary>
-<h3>Abgerufene Lastenheft-Absätze</h3><ul>{% for q in v.abgerufen %}<li><b>{{ q.id }}</b> ({{ q.datei }}, Stand {{ q.stand }}, Ähnlichkeit {{ q.wert }}): {{ q.text }}</li>{% endfor %}</ul>
-<h3>Rohantwort des Sprachmodells (JSON)</h3><pre>{{ v.roh|tojson(indent=2) }}</pre></details></section>
+
+{% if a.status == 'offen' %}
+<section class="abschluss">
+<div><b>{% if offen %}Noch {{ offen }} von {{ n }} offen{% else %}Alles entschieden{% endif %}</b>
+<span>Übernommen wird nur, was Sie bestätigt haben. Danach prüft die offizielle SysML-v2-Software das ganze Modell.</span></div>
+<form method="post" action="/anfrage/{{ a.id }}/freigeben"><button class="haupt" {% if offen %}disabled{% endif %}>Ins Modell übernehmen</button></form>
+</section>{% endif %}
+
+<details class="fach"><summary>Für Fachleute: SysML-v2-Text, Suchtreffer und Rohantwort</summary>
+<p class="leise">Vorschlag {{ a.id }} · Sprachmodell {{ v.sprachmodell }} · {{ v.dauer_s|round(1) }} s · Prompt {{ v.prompt_version }} · Modellstand {{ a.modell_stand }}</p>
+{% if v.sysml %}<h3>SysML v2 (Vorschau der vorgeschlagenen Elemente)</h3><pre>{{ v.sysml }}</pre>{% endif %}
+<h3>Gefundene Lastenheft-Absätze</h3><ul>{% for q in v.abgerufen %}<li><b>{{ q.id }}</b> ({{ q.datei }}, Stand {{ q.stand }}, Ähnlichkeit {{ q.wert }}): {{ q.text }}</li>{% endfor %}</ul>
+{% for e in a.elemente if e.befunde %}<h3>Prüfbefunde {{ e.id }}</h3><ul>{% for b in e.befunde %}<li>{{ b.stufe }}: {{ b.text }}</li>{% endfor %}</ul>{% endfor %}
+<h3>Rohantwort des Sprachmodells (JSON)</h3><pre>{{ v.roh|tojson(indent=2) }}</pre></details>
 {% endblock %}

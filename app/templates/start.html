@@ -1,24 +1,32 @@
 {% extends "basis.html" %}
 {% block inhalt %}
-<section class="karte">
-<h1>Neue Anforderung oder Modellaufgabe</h1>
-<form method="post" action="/anfrage">
-<textarea name="eingabe" rows="3" placeholder="In Alltagssprache, z. B.: Das Fahrzeug soll ..." required></textarea>
-<div class="zeile"><button type="submit">Vorschlag erzeugen</button>
-<span class="leise">Modell {{ sprachmodell }} · Kontext: Modell und Lastenheft (synthetisch)</span></div>
+<ol class="schritte"><li class="aktiv"><span>1</span>Beschreiben</li><li><span>2</span>Prüfen</li><li><span>3</span>Übernehmen</li></ol>
+<section class="buehne">
+<h1>Was soll sich am Fahrzeugmodell ändern?</h1>
+<p class="unterzeile">Schreiben Sie es so, wie Sie es einer Kollegin sagen würden. Der Assistent macht daraus einen
+Vorschlag für das Modell, mit Beleg aus dem Lastenheft. Sie entscheiden, was übernommen wird.</p>
+<form method="post" action="/anfrage" class="mit-warten eingabe">
+<textarea name="eingabe" rows="3" placeholder="Zum Beispiel: Das Fahrzeug soll Rampen mit voller Last befahren können." required></textarea>
+<button type="submit" class="haupt">Vorschlag holen</button>
 </form>
-<p class="leise">Beispiele:</p>
-<ul class="beispiele">{% for b in beispiele %}<li><form method="post" action="/anfrage"><input type="hidden" name="eingabe" value="{{ b }}"><button class="klein">{{ b }}</button></form></li>{% endfor %}</ul>
+<p class="etikett">Zum Ausprobieren</p>
+<div class="beispiele">{% for b in beispiele %}<form method="post" action="/anfrage" class="mit-warten"><input type="hidden" name="eingabe" value="{{ b }}"><button class="chip">{{ b }}</button></form>{% endfor %}</div>
+</section>
+<div class="zwei">
+<section class="karte">
+<h2>Das Modell heute</h2>
+<div class="zahlen">
+<div><b>{{ zahl.get('R',0) }}</b>Anforderungen</div><div><b>{{ zahl.get('F',0) }}</b>Funktionen</div>
+<div><b>{{ zahl.get('P',0) }}</b>Bauteile</div><div><b>{{ zahl.get('L',0) }}</b>Bausteintypen</div>
+</div>
+<p class="siegel {% if syntax.geprueft and syntax.ok %}gut{% else %}offen{% endif %}">{% if syntax.geprueft and syntax.ok %}✓ Stand {{ nr }}, von der offiziellen SysML-v2-Software geprüft: gültig{% elif syntax.geprueft %}Stand {{ nr }}: Prüfung meldet Fehler{% else %}Stand {{ nr }}: noch nicht geprüft{% endif %}</p>
+<a class="weiter" href="/modell">Modell ansehen →</a>
 </section>
 <section class="karte">
-<h2>Modellstand {{ nr }}</h2>
-<p>{{ zahl.get('R',0) }} Anforderungen (R) · {{ zahl.get('F',0) }} Funktionen (F) · {{ zahl.get('L',0) }} logische Bausteine (L) · {{ zahl.get('P',0) }} physische Teile (P) · {{ beziehungen }} Beziehungen</p>
-<p>SysML-v2-Prüfung (OMG-Pilotimplementierung): {% if syntax.geprueft %}{% if syntax.ok %}<span class="ok">gültig</span>{% else %}<span class="fehler">Fehler</span>{% endif %}{% else %}<span class="warnung">nicht geprüft</span>{% endif %}</p>
+<h2>Zuletzt bearbeitet</h2>
+{% if anfragen %}<ul class="liste">{% for a in anfragen %}<li><a href="/anfrage/{{ a.id }}">„{{ a.eingabe }}“</a>
+<span class="pille {{ a.status }}">{{ STATUS.get(a.status, a.status) }}</span><span class="zeit">{{ a.angelegt|zeit }}</span></li>{% endfor %}</ul>
+{% else %}<p class="leise">Noch nichts. Probieren Sie oben ein Beispiel aus.</p>{% endif %}
 </section>
-<section class="karte">
-<h2>Anfragen</h2>
-<table><tr><th>Nr.</th><th>Eingabe</th><th>Stand</th><th>Zeit (UTC)</th></tr>
-{% for a in anfragen %}<tr><td><a href="/anfrage/{{ a.id }}">{{ a.id }}</a></td><td>{{ a.eingabe }}</td><td><span class="status {{ a.status }}">{{ a.status }}</span></td><td>{{ a.angelegt[:16].replace('T',' ') }}</td></tr>{% endfor %}
-</table>
-</section>
+</div>
 {% endblock %}

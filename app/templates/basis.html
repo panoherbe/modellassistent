@@ -3,8 +3,22 @@
 <title>{% block titel %}Modellassistent{% endblock %} · Prototyp</title>
 <link rel="stylesheet" href="/static/stil.css"></head>
 <body>
-<header><a class="marke" href="/">Modellassistent <span>SysML v2 · Prototyp mit synthetischen Daten</span></a>
-<nav><a href="/">Anfragen</a><a href="/modell">Modell</a><a href="/protokoll">Protokoll</a></nav></header>
+<header><div class="leiste">
+<a class="marke" href="/"><span class="zeichen" aria-hidden="true">◆</span> Modellassistent<span class="zusatz">Prototyp mit Beispieldaten</span></a>
+<nav>{% set hier = request.url.path %}
+<a href="/" {% if hier == '/' or hier.startswith('/anfrage') %}class="aktiv"{% endif %}>Neue Änderung</a>
+<a href="/modell" {% if hier == '/modell' %}class="aktiv"{% endif %}>Modell</a>
+<a href="/protokoll" {% if hier == '/protokoll' %}class="aktiv"{% endif %}>Nachvollziehen</a></nav>
+</div></header>
 <main>{% block inhalt %}{% endblock %}</main>
-<footer>Vorschläge eines offenen Sprachmodells, lokal ausgeführt. Ins Modell geht nur, was ein Mensch freigibt.</footer>
+<footer>Der Assistent schlägt vor, der Mensch entscheidet: Ins Modell kommt nur, was Sie bestätigen.
+Läuft vollständig auf diesem Rechner mit dem offenen Sprachmodell {{ sprachmodell }}.</footer>
+<div id="warten" hidden><div class="warten-karte"><div class="kreis" aria-hidden="true"></div>
+<p class="warten-titel">Der Assistent arbeitet …</p>
+<p>Er liest das Modell und das Lastenheft und schreibt einen Vorschlag mit Belegen. Das dauert etwa eine Minute.</p></div></div>
+<script>
+document.querySelectorAll("form.mit-warten").forEach(f => f.addEventListener("submit", () => {
+  document.getElementById("warten").hidden = false;
+}));
+</script>
 </body></html>

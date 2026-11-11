@@ -1,9 +1,28 @@
 {% extends "basis.html" %}
-{% block titel %}Protokoll{% endblock %}
+{% block titel %}Nachvollziehen{% endblock %}
 {% block inhalt %}
-<section class="karte"><h1>Protokoll</h1>
-<p>Hash-Kette: {% if ok %}<span class="ok">{{ meldung }}</span>{% else %}<span class="fehler">{{ meldung }}</span>{% endif %} · <a href="/api/protokoll">Export als JSON</a></p>
+<section class="buehne">
+<p class="etikett">Nachvollziehen</p>
+<h1>Wer hat wann was entschieden?</h1>
+<p class="unterzeile">Jeder Schritt wird mit Zeit festgehalten. Die Einträge sind miteinander verkettet: Eine spätere
+Änderung an einem Eintrag fällt sofort auf.</p>
+<p class="siegel {{ 'gut' if ok else 'schlecht' }}">{% if ok %}✓ Protokoll vollständig und unverändert ({{ eintraege|length }} Einträge){% else %}Achtung: {{ meldung }}{% endif %}</p>
+</section>
+<section class="karte">
+<ol class="verlauf">{% for z in eintraege %}{% set d = z.daten %}<li class="{{ z.aktion }}">
+<span class="zeit">{{ z.zeit|zeit }}</span>
+<div>{% if z.aktion == 'vorschlag_erzeugt' %}<b>Vorschlag erstellt</b> zu „{{ d.eingabe }}“{% if d.status == 'rueckfrage' %} (Rückfrage){% else %}: {{ d.elemente|length }} {{ 'Ergänzung' if d.elemente|length == 1 else 'Ergänzungen' }}{% endif %}
+{% elif z.aktion == 'entscheidung' %}<b>{{ {'angenommen': 'Übernommen', 'bearbeitet': 'Geändert übernommen', 'abgelehnt': 'Verworfen'}.get(d.entscheidung, d.entscheidung) }}:</b> {{ (d.nachher or d.vorher).name }} <span class="leise">({{ d.element }})</span>
+{% elif z.aktion == 'freigegeben' %}<b>Ins Modell übernommen</b>: Stand {{ d.stand }}{% if d.syntax_ok %}, geprüft: gültig{% endif %}
+{% elif z.aktion == 'freigabe_abgewiesen' %}<b>Übernahme gestoppt</b>: Das Modell wäre ungültig geworden.
+{% elif z.aktion == 'verworfen' %}<b>Alles verworfen</b>, Modell unverändert
+{% elif z.aktion == 'modell_geladen' %}<b>Ausgangsmodell geladen</b> (Stand 1)
+{% else %}<b>{{ z.aktion }}</b>{% endif %}
+<span class="leise">{% if d.anfrage %} · Vorgang {{ d.anfrage }}{% endif %}{% if z.benutzer %} · {{ z.benutzer }}{% endif %}</span></div></li>{% else %}<li><div class="leise">Noch keine Einträge.</div></li>{% endfor %}</ol>
+<p><a href="/api/protokoll">Protokoll als Datei (JSON)</a></p>
+</section>
+<details class="fach"><summary>Für Fachleute: alle Einträge mit Prüfsummen</summary>
 <table><tr><th>Nr.</th><th>Zeit (UTC)</th><th>Aktion</th><th>Daten</th><th>Hash</th></tr>
 {% for z in eintraege %}<tr><td>{{ z.nr }}</td><td>{{ z.zeit[:19].replace('T',' ') }}</td><td>{{ z.aktion }}</td><td><code>{{ z.daten|tojson }}</code></td><td><code>{{ z.hash[:10] }}</code></td></tr>{% endfor %}
-</table></section>
+</table></details>
 {% endblock %}

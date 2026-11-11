@@ -1,0 +1,66 @@
+ Container modellassistent-pruefer-1  Running
+ Container modellassistent-ollama-1  Running
+A01: vorschlag  1 El. ok=True syntax=True 56.35 s
+A02: vorschlag  1 El. ok=True syntax=True 44.6 s
+A03: vorschlag  1 El. ok=True syntax=True 40.8 s
+A04: vorschlag  1 El. ok=True syntax=True 43.86 s
+A05: vorschlag  1 El. ok=True syntax=True 48.41 s
+A06: vorschlag  1 El. ok=True syntax=True 45.59 s
+A07: vorschlag  1 El. ok=True syntax=True 44.14 s
+A08: rueckfrage 0 El. ok=False syntax=None 50.38 s
+A09: vorschlag  1 El. ok=True syntax=True 51.94 s
+B01: vorschlag  1 El. ok=True syntax=True 51.08 s
+B02: vorschlag  2 El. ok=True syntax=True 55.22 s
+B03: vorschlag  1 El. ok=True syntax=True 44.92 s
+C01: vorschlag  2 El. ok=True syntax=True 51.1 s
+C02: vorschlag  2 El. ok=True syntax=True 55.5 s
+C03: vorschlag  2 El. ok=True syntax=True 47.82 s
+C04: vorschlag  2 El. ok=True syntax=True 68.12 s
+C05: vorschlag  2 El. ok=True syntax=True 58.31 s
+D01: rueckfrage 0 El. ok=True syntax=None 20.03 s
+D02: rueckfrage 0 El. ok=True syntax=None 18.21 s
+D03: rueckfrage 0 El. ok=True syntax=None 29.63 s
+D04: rueckfrage 0 El. ok=True syntax=None 19.78 s
+D05: rueckfrage 0 El. ok=True syntax=None 22.36 s
+D06: rueckfrage 0 El. ok=True syntax=None 20.73 s
+D07: rueckfrage 0 El. ok=True syntax=None 31.91 s
+{
+ "meta": {
+  "zeit_utc": "2026-11-11T16:30:25+00:00",
+  "sprachmodell": "qwen3.8:27b",
+  "sprachmodell_digest": "aaee06c39dcf",
+  "einbettungsmodell": "embeddinggemma-2",
+  "einbettung_digest": "f4981a15b998",
+  "denken": false,
+  "ollama": "0.40.16",
+  "prompt_version": "vorschlag-v4+klaerung-v2+zuordnung-v2",
+  "modell_sha256": "684cdfbafc41",
+  "abruf_k": 6,
+  "temperatur": 0,
+  "code": "lauf7",
+  "kernel": "jupyter-sysml-kernel 0.63.1"
+ },
+ "kennzahlen": {
+  "aufgaben": 24,
+  "vorschlagsaufgaben": 17,
+  "rueckfrageaufgaben": 7,
+  "status_richtig": 23,
+  "vorschlag_richtig": 16,
+  "rueckfrage_richtig": 7,
+  "ebene_richtig": 16,
+  "ziele_gefunden": 7,
+  "ziele_erwartet": 11,
+  "elemente": 22,
+  "elemente_ohne_fehler": 22,
+  "elemente_belegt": 22,
+  "rf_elemente": 14,
+  "rf_mit_beziehung": 14,
+  "abruf_treffer": 22,
+  "abruf_erwartet": 22,
+  "syntax_geprueft": 16,
+  "syntax_ok": 16,
+  "dauer_median_s": 45.26,
+  "dauer_max_s": 68.12,
+  "ausgabe_tokens_je_s": 8.6
+ }
+}

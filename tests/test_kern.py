@@ -185,3 +185,36 @@ def test_freigabe_nur_mit_gueltigem_modell(tmp_path):
     with pytest.raises(ValueError):
         d.freigeben(aid)
     assert d.stand()[0] == 1 and d.anfrage(aid)["status"] == "offen"
+
+
+def test_oberflaeche_alltagsdeutsch(tmp_path, monkeypatch):
+    """Alle Seiten rendern; Fachbegriffe stehen nur unter „Für Fachleute“, die Hinweise in Alltagsdeutsch."""
+    from fastapi.testclient import TestClient
+
+    from app import main
+    e = replace(laden(), daten=tmp_path, pruefer_url="")
+    d = Dienst(verbinden(tmp_path / "t.sqlite3"), e, FalschesModell(), FalscherIndex())
+    monkeypatch.setattr(main, "dienst", lambda: d)
+    c = TestClient(main.app)
+    assert "Was soll sich am Fahrzeugmodell ändern?" in c.get("/").text
+    r = c.post("/anfrage", data={"eingabe": "Rückraum überwachen"}, follow_redirects=True)
+    import re
+    oben = re.sub(r"<[^>]+>", " ", r.text.split('<details class="fach">')[0])  # sichtbarer Text ohne Fachteil
+    assert "Neues Bauteil" in oben and "Lastenheft, Abschnitt 4.2" in oben and "Noch 3 von 3 offen" in oben
+    assert "satisfy" not in oben and "allocate" not in oben and "warnung" not in oben
+    aid = d.anfragen_liste()[0]["id"]
+    for eid, art in (("L-009", "abgelehnt"), ("P-009", "angenommen"), ("F-008", "angenommen")):
+        c.post(f"/anfrage/{aid}/element/{eid}", data={"art": art})
+    r = c.post(f"/anfrage/{aid}/freigeben", follow_redirects=True)
+    assert "✓ Übernommen." in r.text and "Stand 2" in r.text
+    assert "Bauteile" in c.get("/modell").text
+    p = c.get("/protokoll").text
+    assert "Protokoll vollständig und unverändert" in p and "Ins Modell übernommen" in p
+
+
+def test_klartext():
+    from app.main import klartext, modellname
+    assert klartext("keine wörtlich belegte Quelle").startswith("Kein wörtlicher Beleg")
+    assert klartext("Ziel L-009 (Scanner) auf das Teil P-009 (scannerHinten) gelegt") == \
+        "Automatisch dem Bauteil scannerHinten zugeordnet."
+    assert modellname("qwen3.8:27b") == "Qwen3.8 (27B)" and modellname("qwen3.8:27b-mtp-q4_K_M") == "Qwen3.8 (27B)"

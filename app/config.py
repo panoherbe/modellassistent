@@ -13,6 +13,8 @@ class Einstellungen:
     ollama_url: str
     sprachmodell: str
     einbettungsmodell: str
+    denken: bool
+    einbettung_cpu: bool
     pruefer_url: str
     basismodell: Path
     wissen: Path
@@ -24,8 +26,10 @@ def laden() -> Einstellungen:
     return Einstellungen(
         daten=daten,
         ollama_url=os.environ.get("OLLAMA_URL", "http://localhost:11434"),
-        sprachmodell=os.environ.get("SPRACHMODELL", "qwen2.5:7b-instruct"),
-        einbettungsmodell=os.environ.get("EINBETTUNGSMODELL", "bge-m3"),
+        sprachmodell=os.environ.get("SPRACHMODELL", "qwen3.8:27b"),
+        einbettungsmodell=os.environ.get("EINBETTUNGSMODELL", "embeddinggemma-2"),
+        denken=os.environ.get("DENKEN", "0") == "1",
+        einbettung_cpu=os.environ.get("EINBETTUNG_CPU", "0") == "1",
         pruefer_url=os.environ.get("PRUEFER_URL", ""),
         basismodell=BASIS / "modell" / "ftf.sysml",
         wissen=BASIS / "wissen",

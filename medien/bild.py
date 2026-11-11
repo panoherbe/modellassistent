@@ -1,7 +1,8 @@
-"""Bildschirmfotos der laufenden Anwendung für die Doku (Playwright, Chromium).
+"""Bildschirmfotos der laufenden Anwendung für README und Angebot (Playwright, Chromium).
 
     python medien/bild.py <basis-url> <ausgabeordner>
-Stellt die Beispielanfrage „zweiter Scanner“, fotografiert den Vorschlag, nimmt an, gibt frei, fotografiert den Stand.
+Startseite, dann die Beispielanfrage „zweiter Scanner“: Vorschlag, Entscheidungen (übernehmen, was die Prüfung
+bestanden hat, den Rest verwerfen), Übernahme ins Modell, Modell, Nachvollziehen. Dazu der Export als beispiel.json.
 """
 import sys
 from pathlib import Path
@@ -11,51 +12,46 @@ from playwright.sync_api import sync_playwright
 BASIS, AUS = sys.argv[1].rstrip("/"), Path(sys.argv[2])
 EINGABE = "Bei Rückwärtsfahrt muss auch hinter dem Fahrzeug überwacht werden; ergänze dafür einen zweiten Scanner."
 AUS.mkdir(parents=True, exist_ok=True)
+
+
+def ausschnitt(s, oben, unten, datei):
+    a, b = s.locator(oben).first.bounding_box(), s.locator(unten).bounding_box()
+    s.screenshot(path=str(AUS / datei), full_page=True,
+                 clip={"x": a["x"] - 8, "y": a["y"] - 8, "width": a["width"] + 16, "height": b["y"] + b["height"] - a["y"] + 16})
+
+
 with sync_playwright() as p:
     b = p.chromium.launch()
-    s = b.new_page(viewport={"width": 1100, "height": 900}, device_scale_factor=2, locale="de-DE")
+    s = b.new_page(viewport={"width": 1000, "height": 860}, device_scale_factor=2, locale="de-DE")
+    s.set_default_timeout(900_000)  # das große Modell braucht je Vorschlag etwa anderthalb Minuten
     s.goto(BASIS + "/")
     s.fill("textarea[name=eingabe]", EINGABE)
-    s.click("text=Vorschlag erzeugen")
-    s.wait_for_url("**/anfrage/*", timeout=180000)
+    s.screenshot(path=str(AUS / "start.png"))
+    s.click("form.eingabe button")
+    s.wait_for_url("**/anfrage/*")
     s.wait_for_load_state("networkidle")
     s.screenshot(path=str(AUS / "vorschlag-ganz.png"), full_page=True)
-    oben = s.locator("main section.karte").first.bounding_box()
-    sysml = s.locator("section.karte", has=s.locator("h2", has_text="SysML v2 nach Freigabe"))
-    unten = sysml.bounding_box() if sysml.count() else s.locator("section.element").last.bounding_box()
-    s.screenshot(path=str(AUS / "vorschlag.png"), full_page=True,
-                 clip={"x": oben["x"] - 6, "y": oben["y"] - 6, "width": oben["width"] + 12,
-                       "height": unten["y"] + unten["height"] - oben["y"] + 12})
-    print("Vorschlag:", s.url, flush=True)
-    # Entscheidungen wie ein Modellierer: vorhandene Bausteine nutzen, Doppelungen ablehnen. Gilt nur, wenn der Vorschlag
-    # genau so aussieht wie beim Messlauf; sonst: alles ohne Fehler annehmen, den Rest ablehnen.
-    karten = {k.get_attribute("id"): k.locator(".kopf b").inner_text() for k in s.locator("section.element").all()}
-    plan = {"L-009": ("abgelehnt", None), "P-009": ("bearbeitet", {"name": "scannerHinten", "typ": "Sicherheitslaserscanner"}),
-            "F-008": ("angenommen", None), "F-009": ("abgelehnt", None)}
-    if sorted(karten) != sorted(plan) or "hindernisseErkennenRueckwaerts" not in karten.get("F-009", ""):
-        print("Vorschlag weicht ab, Rückfall:", karten, flush=True)
-        plan = {}
-    for eid in sorted(karten):
-        art, aenderung = plan.get(eid, (None, None))
+    karten = s.locator("section.element")
+    n = karten.count()
+    ausschnitt(s, "section.buehne", f"section.element >> nth={min(n, 2) - 1}" if n else "section.buehne", "vorschlag.png")
+    print("Vorschlag:", s.url, n, "Elemente", flush=True)
+    for eid in [k.get_attribute("id") for k in karten.all()]:
         karte = s.locator(f"section.element#{eid}")
-        if art is None:
-            art = "angenommen" if karte.locator("form:has(input[value=angenommen]) button:not([disabled])").count() else "abgelehnt"
-        if art == "bearbeitet":
-            karte.locator("summary", has_text="Korrigieren").click()
-            for feld, wert in aenderung.items():
-                karte.locator(f"form.korrektur [name={feld}]").fill(wert)
-            karte.locator("form.korrektur button").click()
-        else:
-            karte.locator(f"form:has(input[value={art}]) button").click()
+        ok = karte.locator("form:has(input[value=angenommen]) button:not([disabled])").count()
+        art = "angenommen" if ok else "abgelehnt"
+        karte.locator(f"form:has(input[value={art}]) button").click()
         s.wait_for_load_state("networkidle")
         print(eid, art, flush=True)
     s.screenshot(path=str(AUS / "entschieden.png"), full_page=True)
-    if s.locator("text=Freigeben und ins Modell übernehmen").count():
-        s.click("text=Freigeben und ins Modell übernehmen")
+    knopf = s.locator("section.abschluss button")
+    if knopf.count() and knopf.is_enabled():
+        knopf.click()
         s.wait_for_load_state("networkidle")
-    s.screenshot(path=str(AUS / "freigegeben.png"), full_page=True)
+    s.screenshot(path=str(AUS / "freigegeben.png"))
     nr = s.url.rstrip("/").split("/")[-1].split("#")[0].split("?")[0]
     (AUS / "beispiel.json").write_text(s.request.get(f"{BASIS}/api/anfrage/{nr}/export").text(), encoding="utf-8")
+    s.goto(BASIS + "/modell")
+    s.screenshot(path=str(AUS / "modell.png"))
     s.goto(BASIS + "/protokoll")
-    s.screenshot(path=str(AUS / "protokoll.png"), full_page=False)
+    s.screenshot(path=str(AUS / "protokoll.png"))
     b.close()

@@ -1,0 +1,2 @@
+docker compose run --rm test   (Testrechner mit RTX 3060, 11.11.2026, vor Messlauf 7; neue Oberfläche, Modellwechsel)
+============================== 19 passed in 0.71s ==============================
