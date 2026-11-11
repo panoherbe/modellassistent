@@ -13,9 +13,15 @@ Läufe 1 bis 6 (10.11.2026): Sprachmodell `qwen2.5:7b-instruct`, Einbettung `bge
 | 5 | jede Anforderung und Funktion braucht eine Beziehung zu einem Teil (vorschlag-v4); Typ „NEU-n“ aufgelöst | 3/7 | 17/17 | 13/17 | 1/11 | 38/41 | 30/41 | 21/21 | 11,31 |
 | 6 | Beziehung auf einen neuen Baustein (L) wird auf das Teil gelegt, das ihn ausprägt (zuordnung-v2) | 3/7 | 17/17 | 13/17 | 1/11 | 38/41 | 30/41 | 21/21 | 11,28 |
 | 7 | aktuelle Modellgeneration (11.11.2026): Sprachmodell qwen3.8:27b, Einbettung embeddinggemma-2, Ollama 0.40.16, Denkmodus aus; Anweisungen unverändert | 7/7 | 16/17 | 16/17 | 7/11 | 22/22 | 22/22 | 16/16 | 45,26 |
+| 8 | keine: Wiederholung von Lauf 7 mit Lastprotokoll (`lauf8-last.log`); 24 von 24 Aufgaben mit gleichem Ergebnis | 7/7 | 16/17 | 16/17 | 7/11 | 22/22 | 22/22 | 16/16 | 50,4 |
 
 „Modell gültig“: Aufgaben, bei denen mindestens ein Element ohne Prüffehler ins Modell eingefügt und das ganze
 Modell von der OMG-Pilotimplementierung (jupyter-sysml-kernel) ohne Fehler gelesen wurde.
+
+Lauf 7 lief am 11.11.2026 zwischen 16:13 und 16:21 UTC neben einer anderen Arbeit auf dem Prozessor. Lauf 8
+wiederholt ihn ohne Änderung und schreibt die Rechnerlast alle 30 s mit (Lastmittel 9–10 bei 16 Kernen, davon
+rund 8 das Sprachmodell selbst): alle 24 Ergebnisse gleich, die Zeiten etwa 10 % länger. Zeitangaben stammen
+deshalb aus Lauf 8.
 
 ## Wahl der Modelle (11.11.2026)
 
@@ -44,18 +50,19 @@ A01 enthält beim ersten Lauf das Laden des Modells. Die MTP-Variante liefert di
 
 ```
 {
- "zeit_utc": "2026-11-11T16:30:25+00:00",
+ "zeit_utc": "2026-11-11T21:25:48+00:00",
  "sprachmodell": "qwen3.8:27b",
  "sprachmodell_digest": "aaee06c39dcf",
  "einbettungsmodell": "embeddinggemma-2",
  "einbettung_digest": "f4981a15b998",
  "denken": false,
+ "einbettung_cpu": false,
  "ollama": "0.40.16",
  "prompt_version": "vorschlag-v4+klaerung-v2+zuordnung-v2",
  "modell_sha256": "684cdfbafc41",
  "abruf_k": 6,
  "temperatur": 0,
- "code": "lauf7",
+ "code": "lauf8",
  "kernel": "jupyter-sysml-kernel 0.63.1"
 }
 ```

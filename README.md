@@ -37,9 +37,10 @@ Rundgang ohne Ton, 57 s: [als Video herunterladen (MP4)](medien/rundgang.mp4)
 | Das ganze Modell ist danach gültig (OMG-Software) | 16 von 16 |
 | Der passende Lastenheft-Absatz ist unter den gefundenen | 22 von 22 |
 | Die erwartete Verknüpfung zu einem vorhandenen Element ist gesetzt | 7 von 11 |
-| Dauer je Eingabe (Median, RTX 3060 mit 12 GB) | 45 s |
+| Ein zweiter Lauf mit denselben Einstellungen bringt dasselbe Ergebnis | 24 von 24 |
+| Dauer je Eingabe (Median, RTX 3060 mit 12 GB) | 50 s |
 
-Alle sieben Läufe, auch die schlechteren, und die Wahl der Modelle: [`nachweis/PROTOKOLL.md`](nachweis/PROTOKOLL.md).
+Alle acht Läufe, auch die schlechteren, und die Wahl der Modelle: [`nachweis/PROTOKOLL.md`](nachweis/PROTOKOLL.md).
 Die Läufe 1 bis 6 liefen mit einem kleineren Vorgängermodell; ab Lauf 7 mit der aktuellen Generation (Qwen3.8 mit
 27 Milliarden Parametern, Einbettung EmbeddingGemma 2).
 
@@ -48,7 +49,7 @@ Die Läufe 1 bis 6 liefen mit einem kleineren Vorgängermodell; ab Lauf 7 mit de
 **Kurz:** ein Befehl für die Tests, einer für die Oberfläche.
 
 Voraussetzung: Docker mit Compose. Für die Oberfläche eine NVIDIA-Grafikkarte mit 12 GB oder mehr (gemessen: RTX 3060,
-12 GB; das Modell liegt dort gut zur Hälfte im Hauptspeicher, mit 20 GB ganz auf der Karte).
+12 GB; knapp die Hälfte des Modells liegt dort im Hauptspeicher, mit 20 GB ganz auf der Karte).
 
 ```bash
 docker compose run --rm test                       # Tests ohne Sprachmodell, wenige Sekunden
@@ -66,7 +67,7 @@ docker compose run --rm app python -m eval.messen --ausgabe nachweis/neu   # eig
 
 Modell und Lastenheft sind erfunden (ein autonomes Flurförderfahrzeug). Der Assistent legt neue Elemente an, ändert
 aber keine vorhandenen; Anmeldung und Rollen fehlen; die Messaufgaben sind selbst geschrieben und dienten auch zum
-Verbessern der Anweisungen. Ein Vorschlag dauert mit dem großen Modell auf einer 12-GB-Karte rund 45 Sekunden, höchstens gut eine Minute.
+Verbessern der Anweisungen. Ein Vorschlag dauert mit dem großen Modell auf einer 12-GB-Karte rund 50 Sekunden, höchstens gut eine Minute.
 
 ## Technik (für Fachleute)
 

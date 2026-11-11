@@ -16,6 +16,7 @@ AENDERUNG = {
     "lauf6": "Beziehung auf einen neuen Baustein (L) wird auf das Teil gelegt, das ihn ausprägt (zuordnung-v2)",
     "lauf7": "aktuelle Modellgeneration (11.11.2026): Sprachmodell qwen3.8:27b, Einbettung embeddinggemma-2, "
              "Ollama 0.40.16, Denkmodus aus; Anweisungen unverändert",
+    "lauf8": "keine: Wiederholung von Lauf 7 mit Lastprotokoll (`lauf8-last.log`); 24 von 24 Aufgaben mit gleichem Ergebnis",
 }
 
 
@@ -76,7 +77,11 @@ def main():
                      f"{sum(x[3] == 'True' for x in rf)}/{len(rf)} | {sum(x[3] == 'True' for x in vs)}/{len(vs)} | – | – | – | – | "
                      f"{sum(x[4] == 'True' for x in syn)}/{len(syn)} | – |")
     z += ["", "„Modell gültig“: Aufgaben, bei denen mindestens ein Element ohne Prüffehler ins Modell eingefügt und das ganze",
-          "Modell von der OMG-Pilotimplementierung (jupyter-sysml-kernel) ohne Fehler gelesen wurde.", ""]
+          "Modell von der OMG-Pilotimplementierung (jupyter-sysml-kernel) ohne Fehler gelesen wurde.", "",
+          "Lauf 7 lief am 11.11.2026 zwischen 16:13 und 16:21 UTC neben einer anderen Arbeit auf dem Prozessor. Lauf 8",
+          "wiederholt ihn ohne Änderung und schreibt die Rechnerlast alle 30 s mit (Lastmittel 9–10 bei 16 Kernen, davon",
+          "rund 8 das Sprachmodell selbst): alle 24 Ergebnisse gleich, die Zeiten etwa 10 % länger. Zeitangaben stammen",
+          "deshalb aus Lauf 8.", ""]
     z += modellwahl() + [""]
     letzte = N / max(AENDERUNG) / "ergebnisse.json"
     if letzte.exists():
