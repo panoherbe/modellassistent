@@ -7,7 +7,7 @@ Beispieldaten.**
 
 ![Rundgang: Wunsch eingeben, Vorschlag prüfen, übernehmen, Rückfrage, Protokoll](medien/rundgang.gif)
 
-Rundgang ohne Ton, «DAUER» s: [als Video herunterladen (MP4)](medien/rundgang.mp4)
+Rundgang ohne Ton, 57 s: [als Video herunterladen (MP4)](medien/rundgang.mp4)
 
 ## So arbeitet man damit
 
