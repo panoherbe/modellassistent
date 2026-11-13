@@ -104,8 +104,8 @@ Ohne Installation: die [Vorführung](https://panoherbe.com/projekte/modellassist
 und die Anwendung mit echtem Sprachmodell (NVIDIA-Grafikkarte mit mindestens 12 GB; gemessen: RTX 3060, 12 GB):
 
 ```bash
-docker compose run --rm test                       # Tests ohne Sprachmodell, wenige Sekunden
 docker volume create ollama-modelle                # einmal: Speicher für die Modelle
+docker compose run --rm test                       # Tests ohne Sprachmodell, wenige Sekunden
 docker compose up -d
 docker compose exec ollama ollama pull qwen3.8:27b
 docker compose exec ollama ollama pull embeddinggemma-2
@@ -116,8 +116,6 @@ python vorfuehrung/baue.py nachweis/neu                                    # Vor
 
 ## Technik (für Fachleute)
 
-| Baustein | Umsetzung |
-|---|---|
 | Baustein | Umsetzung |
 |---|---|
 | Systemmodell | synthetisches SysML-v2-Modell in RFLP-Struktur (`beispiel/ftf.sysml`): 7 Anforderungen, 7 Funktionen, 8 logische Bausteine, das Fahrzeug mit 7 Teilen, 14 Beziehungen (*satisfy*, *allocate*) |
@@ -134,6 +132,6 @@ python vorfuehrung/baue.py nachweis/neu                                    # Vor
 ## Lizenz
 
 AGPL-3.0. Sprachmodell Qwen3.8 und Suchmodell EmbeddingGemma 2 (beide Apache 2.0), OMG SysML v2 Pilot Implementation
-(EPL-2.0). Auftraggeber erhalten im Auftrag die vertraglich vereinbarten Rechte.
+(EPL-2.0).
 
 Panagiotis Herbe · [panoherbe.com](https://panoherbe.com)

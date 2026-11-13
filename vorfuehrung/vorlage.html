@@ -152,7 +152,9 @@ async function los(id) {
     <div class="karte arbeit"><ul>${zeilen.map((z, k) => `<li><b>${k + 1}</b>${z}</li>`).join("")}</ul></div>
     <p class="klein" style="margin-top:14px">Im Messlauf dauerte das ${zahl(a.dauer_s)} Sekunden; hier abgekürzt.</p>`);
   const lis = document.querySelectorAll(".arbeit li");
-  for (let k = 0; k < lis.length; k++) { lis[k].classList.add("jetzt"); await warte(650); lis[k].classList.remove("jetzt"); lis[k].classList.add("da"); lis[k].querySelector("b").textContent = "✓"; }
+  const n = a.status === "rueckfrage" ? 2 : lis.length;
+  for (let k = 0; k < n; k++) { lis[k].classList.add("jetzt"); await warte(650); lis[k].classList.remove("jetzt"); lis[k].classList.add("da"); lis[k].querySelector("b").textContent = "✓"; }
+  if (n < lis.length) { lis[2].innerHTML = "<b>–</b>Kein Vorschlag: Rückfrage nötig"; lis[2].classList.add("da"); await warte(500); }
   await warte(250);
   merke("Suche im Lastenheft", `${a.abgerufen.length} passende Absätze gefunden`);
   if (a.status === "rueckfrage") return rueckfrage();
@@ -172,21 +174,25 @@ function rueckfrage() {
 }
 
 function name(id) { const n = a.elemente.find(e => e.id === id); return n ? n.name : (NAMEN[id] || id); }
+const neuOderVerworfen = id => a.elemente.some(x => x.id === id) ? (ent[id] === "abgelehnt" ? ", verworfen" : ", neu") : "";
 
 function pruefen() {
   schritt(2);
   const e = a.elemente[i], n = a.elemente.length;
-  const bez = (e.bezuege || []).map(b => `${b.art === "satisfy" ? "Erfüllt durch" : "Ausgeführt von"} <b>${esc(name(b.ziel))}</b> (${KURZ[b.ziel[0]]}${a.elemente.some(x => x.id === b.ziel) ? ", neu" : ""})`);
+  const bez = (e.bezuege || []).map(b => `${b.art === "satisfy" ? "Erfüllt durch" : "Ausgeführt von"} <b>${esc(name(b.ziel))}</b> (${KURZ[b.ziel[0]]}${neuOderVerworfen(b.ziel)})`);
   if (e.ebene === "P" && e.typ) bez.unshift(`Typ <b>${esc(e.typ)}</b>`);
   for (const b of e.bezuege_von || []) bez.push(`${b.art === "satisfy" ? "Erfüllt" : "Führt aus"} <b>${esc(name(b.quelle))}</b>`);
   const q = e.quellen[0];
+  const typWeg = e.ebene === "P" && a.elemente.some(x => x.ebene === "L" && x.name === e.typ && ent[x.id] === "abgelehnt");
   zeige(`<p class="zaehler">Vorschlag ${i + 1} von ${n} · Bitte entscheiden</p>
     <div class="karte vorschlag ${e.ebene}">
       <span class="typ">${TYP[e.ebene]}</span>
       <p class="aussage">${esc(e.text || ("Bauteil vom Typ " + e.typ))}</p>
       <p class="bezug">Name im Modell <b>${esc(e.name)}</b>${bez.length ? " · " + bez.join(" · ") : ""}</p>
       ${q ? `<div class="beleg"><small>✓ Beleg, wörtlich im Lastenheft gefunden (Abschnitt ${esc(q.quelle.slice(3))})</small><q>${esc(q.zitat)}</q></div>` : ""}
-      <div class="knoepfe"><button class="knopf gut" data-e="angenommen">✓ Übernehmen</button><button class="knopf leise" data-e="abgelehnt">Verwerfen</button></div>
+      ${typWeg ? `<p class="bezug"><b>Nicht übernehmbar:</b> Sie haben den Bausteintyp ${esc(e.typ)} verworfen. Dieses Bauteil wird deshalb mit verworfen.</p>
+        <div class="knoepfe"><button class="knopf leise" data-e="abgelehnt">Weiter</button></div>`
+      : `<div class="knoepfe"><button class="knopf gut" data-e="angenommen">✓ Übernehmen</button><button class="knopf leise" data-e="abgelehnt">Verwerfen</button></div>`}
     </div>
     <p class="klein" style="margin-top:14px">Ins Modell kommt nur, was Sie übernehmen.</p>`);
   document.querySelectorAll("[data-e]").forEach(b => b.onclick = () => {
@@ -200,7 +206,7 @@ function sysmlFuer(ja) {
   if (!weg.length) return a.sysml;
   return a.sysml.split(/\n\n/).map(block => {
     if (weg.some(e => block.includes(`<'${e.id}'>`))) return null;
-    const z = block.split("\n").filter(l => !weg.some(e => new RegExp(`\\b${e.name}\\b`).test(l)));
+    const z = block.split("\n").filter(l => !(/^\s*(satisfy|allocate)\b/.test(l) && weg.some(e => new RegExp(`\\b${e.name}\\b`).test(l))));
     return z.filter(l => !l.startsWith("//")).length ? z.join("\n") : null;
   }).filter(Boolean).join("\n\n");
 }

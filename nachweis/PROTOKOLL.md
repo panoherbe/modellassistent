@@ -18,7 +18,7 @@ Läufe 1 bis 6 (10.11.2026): Sprachmodell `qwen2.5:7b-instruct`, Einbettung `bge
 „Modell gültig“: Aufgaben, bei denen mindestens ein Element ohne Prüffehler ins Modell eingefügt und das ganze
 Modell von der OMG-Pilotimplementierung (jupyter-sysml-kernel) ohne Fehler gelesen wurde.
 
-Lauf 7 lief am 11.11.2026 zwischen 16:13 und 16:21 UTC neben einer anderen Arbeit auf dem Prozessor. Lauf 8
+Lauf 7 lief am 11.11.2026 zwischen 16:13 und 16:30 UTC neben einer anderen Arbeit auf dem Prozessor. Lauf 8
 wiederholt ihn ohne Änderung und schreibt die Rechnerlast alle 30 s mit (Lastmittel 9–10 bei 16 Kernen, davon
 rund 8 das Sprachmodell selbst): alle 24 Ergebnisse gleich, die Zeiten etwa 10 % länger. Zeitangaben stammen
 deshalb aus Lauf 8.
