@@ -5,9 +5,20 @@ aus dem Lastenheft. Der Mensch entscheidet jede Ergänzung; ins Modell kommt nur
 SysML-v2-Software der OMG prüft das ganze Modell. Das läuft heute, lokal, mit dem offenen Sprachmodell Qwen3.8 und
 Beispieldaten.**
 
+**▶ Im Browser ausprobieren, ohne Installation: [panoherbe.github.io/modellassistent](https://panoherbe.github.io/modellassistent/)**
+Wunsch wählen, jeden Vorschlag übernehmen oder verwerfen, dann SysML v2, Quellen und Protokoll ansehen. Die Seite spielt
+die aufgezeichneten Antworten des Messlaufs vom 11.11.2026 ab (Qwen3.8 27B); auf ihr läuft keine KI, und nichts wird
+gesendet.
+
+[![Vorführung im Browser: Vorschlag mit Belegen prüfen](medien/vorfuehrung/demo-vorschlag.png)](https://panoherbe.github.io/modellassistent/?beispiel=C01)
+
 ![Rundgang: Wunsch eingeben, Vorschlag prüfen, übernehmen, Rückfrage, Protokoll](medien/rundgang.gif)
 
 Rundgang ohne Ton, 57 s: [als Video herunterladen (MP4)](medien/rundgang.mp4)
+
+| Übernommen: SysML v2 aus Vorlagen | Unklarer Wunsch: Rückfrage statt Raten |
+|---|---|
+| ![Übernommen, SysML v2](medien/vorfuehrung/demo-uebernommen.png) | ![Rückfrage](medien/vorfuehrung/demo-rueckfrage.png) |
 
 ## So arbeitet man damit
 
@@ -46,7 +57,10 @@ Die Läufe 1 bis 6 liefen mit einem kleineren Vorgängermodell; ab Lauf 7 mit de
 
 ## In zwei Minuten selbst prüfen
 
-**Kurz:** ein Befehl für die Tests, einer für die Oberfläche.
+**Kurz:** ohne Installation die Vorführung im Browser; mit Docker die Tests und die Oberfläche mit echtem Sprachmodell.
+
+Ohne Installation: [Vorführung](https://panoherbe.github.io/modellassistent/) (aufgezeichnete Antworten, Quelle
+`docs/`, Daten erzeugt mit `python demo/daten.py nachweis/lauf8`). Wer das Sprachmodell selbst antworten lassen will:
 
 Voraussetzung: Docker mit Compose. Für die Oberfläche eine NVIDIA-Grafikkarte mit 12 GB oder mehr (gemessen: RTX 3060,
 12 GB; knapp die Hälfte des Modells liegt dort im Hauptspeicher, mit 20 GB ganz auf der Karte).

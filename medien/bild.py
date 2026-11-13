@@ -1,4 +1,4 @@
-"""Bildschirmfotos der laufenden Anwendung für README und Angebot (Playwright, Chromium).
+"""Bildschirmfotos der laufenden Anwendung für das README (Playwright, Chromium).
 
     python medien/bild.py <basis-url> <ausgabeordner>
 Startseite, dann die Beispielanfrage „zweiter Scanner“: Vorschlag, Entscheidungen (übernehmen, was die Prüfung
