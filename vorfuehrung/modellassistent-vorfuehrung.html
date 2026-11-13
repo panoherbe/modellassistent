@@ -131,7 +131,7 @@ $("#fuss").innerHTML = `Aufgezeichnete Antworten des Sprachmodells Qwen3.8 (27 M
 
 let a = null, i = 0, ent = {}, log = [];
 const schritt = n => document.querySelectorAll(".punkte i").forEach((p, k) => p.classList.toggle("an", k < n));
-const zeige = html => { const b = $("#buehne"); b.innerHTML = `<div class="ein">${html}</div>`; window.scrollTo({top: 0}); const f = b.querySelector("button"); if (f && !matchMedia("(pointer:coarse)").matches) f.focus({preventScroll: true}); };
+const zeige = html => { const b = $("#buehne"); b.innerHTML = `<div class="ein">${html}</div>`; window.scrollTo({top: 0}); };
 const merke = (was, text) => log.push({was, text, zeit: new Date()});
 
 function start() {

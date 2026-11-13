@@ -1,0 +1,2 @@
+docker compose --profile test run --rm --build test   (Testrechner mit RTX 3060, 13.11.2026, nach der Neugliederung: beispiel/, vorfuehrung/)
+19 passed, 1 warning in 0.71s

@@ -1,6 +1,6 @@
 """Bildschirmfotos der laufenden Anwendung für das README (Playwright, Chromium).
 
-    python medien/bild.py <basis-url> <ausgabeordner>
+    python medien/bild.py <basis-url> medien/anwendung/bilder
 Startseite, dann die Beispielanfrage „zweiter Scanner“: Vorschlag, Entscheidungen (übernehmen, was die Prüfung
 bestanden hat, den Rest verwerfen), Übernahme ins Modell, Modell, Nachvollziehen. Dazu der Export als beispiel.json.
 """
