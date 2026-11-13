@@ -1,6 +1,6 @@
 """Das SysML-v2-Modell: Elemente mit Kennung lesen, Verweise bilden, freigegebene Vorschläge einfügen.
 
-Gelesen wird die Teilmenge der Textnotation, in der `modell/ftf.sysml` geschrieben ist (requirement, action,
+Gelesen wird die Teilmenge der Textnotation, in der `beispiel/ftf.sysml` geschrieben ist (requirement, action,
 part def, part, satisfy, allocate mit Kurznamen <'X-nnn'>). Das ist ein Index für den Assistenten, kein allgemeiner
 SysML-v2-Parser; die Gültigkeit des ganzen Modells prüft die OMG-Pilotimplementierung (`pruefer/`).
 """

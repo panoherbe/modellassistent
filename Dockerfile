@@ -3,8 +3,7 @@ WORKDIR /app
 COPY pyproject.toml ./
 COPY app ./app
 RUN pip install --no-cache-dir ".[test]"
-COPY modell ./modell
-COPY wissen ./wissen
+COPY beispiel ./beispiel
 COPY eval ./eval
 COPY tests ./tests
 ENV DATENVERZEICHNIS=/app/daten PYTHONUNBUFFERED=1

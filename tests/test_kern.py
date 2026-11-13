@@ -16,8 +16,8 @@ from app.vorschlag import nachbereiten
 from app.wissen import aus_modell, belegt, lastenheft
 
 BASIS = Path(__file__).resolve().parent.parent
-MODELL = lesen((BASIS / "modell" / "ftf.sysml").read_text(encoding="utf-8"))
-LH = {q.id: q for q in lastenheft(BASIS / "wissen")}
+MODELL = lesen((BASIS / "beispiel" / "ftf.sysml").read_text(encoding="utf-8"))
+LH = {q.id: q for q in lastenheft(BASIS / "beispiel")}
 KONTEXT = LH | {q.id: q for q in aus_modell(MODELL, "ftf.sysml")}
 
 

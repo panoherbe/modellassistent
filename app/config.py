@@ -31,6 +31,6 @@ def laden() -> Einstellungen:
         denken=os.environ.get("DENKEN", "0") == "1",
         einbettung_cpu=os.environ.get("EINBETTUNG_CPU", "0") == "1",
         pruefer_url=os.environ.get("PRUEFER_URL", ""),
-        basismodell=BASIS / "modell" / "ftf.sysml",
-        wissen=BASIS / "wissen",
+        basismodell=BASIS / "beispiel" / "ftf.sysml",
+        wissen=BASIS / "beispiel",
     )
