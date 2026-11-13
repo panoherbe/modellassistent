@@ -1,8 +1,8 @@
 # Modellassistent
 
 **Änderungswünsche in Alltagssprache werden zu geprüften Ergänzungen eines Systemmodells (SysML v2), jede mit Beleg
-aus dem Lastenheft. Der Mensch entscheidet jede Ergänzung; ins Modell kommt nur, was er bestätigt, und die offizielle
-SysML-v2-Software der OMG prüft das ganze Modell. Das läuft heute, lokal, mit dem offenen Sprachmodell Qwen3.8 und
+aus dem Lastenheft. Der Mensch entscheidet jede Ergänzung; ins Modell kommt nur, was er bestätigt, und die
+SysML-v2-Pilotimplementierung der OMG prüft das ganze Modell. Das läuft heute, lokal, mit dem offenen Sprachmodell Qwen3.8 und
 Beispieldaten.**
 
 **▶ Im Browser ausprobieren, ohne Installation: [panoherbe.github.io/modellassistent](https://panoherbe.github.io/modellassistent/)**
@@ -28,7 +28,7 @@ Rundgang ohne Ton, 57 s: [als Video herunterladen (MP4)](medien/rundgang.mp4)
 |---|---|---|
 | 1 Beschreiben | den Wunsch hinschreiben, wie man ihn einer Kollegin sagt | liest Modell und Lastenheft; fehlt ein Wert, fragt er nach, statt zu raten |
 | 2 Prüfen | je Ergänzung übernehmen, ändern oder verwerfen | zeigt jede Ergänzung mit Beleg; „wörtlich gefunden“ heißt: das Zitat steht so im Lastenheft |
-| 3 Übernehmen | einmal „Ins Modell übernehmen“ | schreibt SysML v2 aus Vorlagen, lässt das ganze Modell von der OMG-Software prüfen, hält jeden Schritt im Protokoll fest |
+| 3 Übernehmen | einmal „Ins Modell übernehmen“ | schreibt SysML v2 aus Vorlagen, lässt das ganze Modell von der OMG-Pilotimplementierung prüfen, hält jeden Schritt im Protokoll fest |
 
 | Vorschlag prüfen | Übernommen |
 |---|---|
@@ -45,7 +45,7 @@ Rundgang ohne Ton, 57 s: [als Video herunterladen (MP4)](medien/rundgang.mp4)
 | Die Ergänzung steht auf der richtigen Ebene (Anforderung, Funktion, Bauteil) | 16 von 17 |
 | Jede Ergänzung hat einen Beleg, das Zitat steht wörtlich im Lastenheft | 22 von 22 |
 | Ergänzungen ohne Prüffehler | 22 von 22 |
-| Das ganze Modell ist danach gültig (OMG-Software) | 16 von 16 |
+| Das ganze Modell ist danach gültig (OMG-Pilotimplementierung) | 16 von 16 |
 | Der passende Lastenheft-Absatz ist unter den gefundenen | 22 von 22 |
 | Die erwartete Verknüpfung zu einem vorhandenen Element ist gesetzt | 7 von 11 |
 | Ein zweiter Lauf mit denselben Einstellungen bringt dasselbe Ergebnis | 24 von 24 |
@@ -63,7 +63,7 @@ Ohne Installation: [Vorführung](https://panoherbe.github.io/modellassistent/) (
 `docs/`, Daten erzeugt mit `python demo/daten.py nachweis/lauf8`). Wer das Sprachmodell selbst antworten lassen will:
 
 Voraussetzung: Docker mit Compose. Für die Oberfläche eine NVIDIA-Grafikkarte mit 12 GB oder mehr (gemessen: RTX 3060,
-12 GB; knapp die Hälfte des Modells liegt dort im Hauptspeicher, mit 20 GB ganz auf der Karte).
+12 GB; knapp die Hälfte des Modells liegt dort im Hauptspeicher).
 
 ```bash
 docker compose run --rm test                       # Tests ohne Sprachmodell, wenige Sekunden

@@ -155,7 +155,7 @@ footer{padding:26px 0 40px;color:var(--leise);font-size:14px}
   <h1>Aus einem Satz in Alltagssprache wird ein geprüfter SysML-v2-Vorschlag. Der Mensch entscheidet.</h1>
   <p class="lead">Der Assistent liest das Systemmodell und das Lastenheft, schlägt Anforderungen, Funktionen und Bauteile
   vor, belegt jede Ergänzung mit einem wörtlichen Zitat und fragt nach, wenn etwas fehlt. Ins Modell kommt nur, was ein
-  Mensch bestätigt; danach prüft die offizielle SysML-v2-Software der OMG das ganze Modell.</p>
+  Mensch bestätigt; danach prüft die SysML-v2-Pilotimplementierung der OMG das ganze Modell.</p>
   <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
   <a class="knopf" href="#vorfuehrung" style="text-decoration:none">Jetzt ausprobieren</a>
   <span class="plakette" id="plakette">Aufgezeichnete Messläufe · keine Live-KI auf dieser Seite</span></div>
@@ -220,7 +220,11 @@ footer{padding:26px 0 40px;color:var(--leise);font-size:14px}
   Die Tests laufen ohne Sprachmodell in wenigen Sekunden. Anleitung im
   <a href="https://github.com/panoherbe/modellassistent#in-zwei-minuten-selbst-pr%C3%BCfen">README</a>.</p>
   <pre class="code">docker compose run --rm test        # Tests ohne Sprachmodell
-docker compose up -d                # Oberfläche: http://127.0.0.1:8431</pre>
+docker volume create ollama-modelle
+docker compose up -d
+docker compose exec ollama ollama pull qwen3.8:27b
+docker compose exec ollama ollama pull embeddinggemma-2
+# Oberfläche: http://127.0.0.1:8431</pre>
 </section>
 </main>
 
@@ -425,7 +429,7 @@ async function uebernehmen() {
     kopf = `<div class="hinweis">Alles verworfen. Das Modell bleibt unverändert; im Protokoll steht, wer was verworfen hat.</div>`;
   } else if (alle && syntax.ok) {
     kopf = `<div class="erfolg"><b>✓ Übernommen.</b> Neuer Modellstand mit ${angenommen.length}
-      ${angenommen.length === 1 ? "Ergänzung" : "Ergänzungen"}. Im Messlauf hat die offizielle SysML-v2-Software der OMG
+      ${angenommen.length === 1 ? "Ergänzung" : "Ergänzungen"}. Im Messlauf hat die SysML-v2-Pilotimplementierung der OMG
       (${esc(syntax.kernel || D.meta.kernel)}) das ganze Modell nach dem Einfügen geprüft: <b>gültig</b>.</div>`;
   } else {
     kopf = `<div class="erfolg"><b>✓ Übernommen:</b> ${angenommen.length} von ${aufgabe.elemente.length} Ergänzungen.
@@ -485,7 +489,7 @@ function kennzahlen() {
   const z = [
     [`${k.rueckfrage_richtig} von ${k.rueckfrageaufgaben}`, "unklare oder widersprüchliche Wünsche: Rückfrage statt Raten"],
     [`${k.elemente_belegt} von ${k.elemente}`, "Ergänzungen mit wörtlich belegtem Zitat aus dem Lastenheft"],
-    [`${k.syntax_ok} von ${k.syntax_geprueft}`, "Modelle nach dem Einfügen gültig (OMG-Software)"],
+    [`${k.syntax_ok} von ${k.syntax_geprueft}`, "Modelle nach dem Einfügen gültig (OMG-Pilotimplementierung)"],
     [`${k.vorschlag_richtig} von ${k.vorschlagsaufgaben}`, "klare Wünsche wurden zu einem Vorschlag"],
     [`${k.ziele_gefunden} von ${k.ziele_erwartet}`, "erwartete Verknüpfungen zu vorhandenen Elementen gesetzt"],
     [`${zahl(k.dauer_median_s)} s`, `je Eingabe im Median, höchstens ${zahl(k.dauer_max_s)} s`],
